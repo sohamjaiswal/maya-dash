@@ -3,6 +3,7 @@
 	import { storeTheme } from "$lib/stores/stores";
 	import { AppBar, LightSwitch, popup } from "@skeletonlabs/skeleton";
 	import type { SubmitFunction } from "@sveltejs/kit";
+	import Icon from '@iconify/svelte';
 
     const themes = [
         { type: 'skeleton', name: 'Skeleton', icon: '💀' },
@@ -41,9 +42,9 @@
         <div>
 			<!-- trigger -->
 			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}>
-				<i class="fa-solid fa-palette text-lg md:!hidden" />
+				<Icon icon="fa6-solid:palette" class="text-lg" />
 				<span class="hidden md:inline-block">Theme</span>
-				<i class="fa-solid fa-caret-down opacity-50" />
+				<Icon icon="fa-solid:caret-down" class="opacity-50" />
 			</button>
 			<!-- popup -->
 			<div class="card p-4 w-60 shadow-xl" data-popup="theme">
