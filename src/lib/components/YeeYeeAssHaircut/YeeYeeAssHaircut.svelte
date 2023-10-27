@@ -1,236 +1,237 @@
 <script>
+	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import * as THREE from 'three';
 	import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
-    class CreateParticles {
-			constructor(scene, font, particleImg, camera, renderer) {
-				this.scene = scene;
-				this.font = font;
-				this.particleImg = particleImg;
-				this.camera = camera;
-				this.renderer = renderer;
+	class CreateParticles {
+		constructor(scene, font, particleImg, camera, renderer) {
+			this.scene = scene;
+			this.font = font;
+			this.particleImg = particleImg;
+			this.camera = camera;
+			this.renderer = renderer;
 
-				this.raycaster = new THREE.Raycaster();
-				this.mouse = new THREE.Vector2(-200, 200);
+			this.raycaster = new THREE.Raycaster();
+			this.mouse = new THREE.Vector2(-200, 200);
 
-				this.colorChange = new THREE.Color();
+			this.colorChange = new THREE.Color();
 
-				this.buttom = false;
+			this.buttom = false;
 
-				this.data = {
-					text: "Welcome to\nMaya",
-					amount: 1500,
-					particleSize: 1,
-					particleColor: 0xffffff,
-					textSize: 16,
-					area: 250,
-					ease: 0.05
-				};
+			this.data = {
+				text:'Maya',
+				amount: 1500,
+				particleSize: 1,
+				particleColor: 0xffffff,
+				textSize: 16,
+				area: 250,
+				ease: 0.05
+			};
 
-				this.setup();
-				this.bindEvents();
-			}
+			this.setup();
+			this.bindEvents();
+		}
 
-			setup() {
-				const geometry = new THREE.PlaneGeometry(
-					this.visibleWidthAtZDepth(100, this.camera),
-					this.visibleHeightAtZDepth(100, this.camera)
-				);
-				const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true });
-				this.planeArea = new THREE.Mesh(geometry, material);
-				this.planeArea.visible = false;
-				this.createText();
-			}
+		setup() {
+			const geometry = new THREE.PlaneGeometry(
+				this.visibleWidthAtZDepth(100, this.camera),
+				this.visibleHeightAtZDepth(100, this.camera)
+			);
+			const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true });
+			this.planeArea = new THREE.Mesh(geometry, material);
+			this.planeArea.visible = false;
+			this.createText();
+		}
 
-			bindEvents() {
-				document.addEventListener('mousedown', this.onMouseDown.bind(this));
-				document.addEventListener('mousemove', this.onMouseMove.bind(this));
-				document.addEventListener('mouseup', this.onMouseUp.bind(this));
-			}
+		bindEvents() {
+			document.addEventListener('mousedown', this.onMouseDown.bind(this));
+			document.addEventListener('mousemove', this.onMouseMove.bind(this));
+			document.addEventListener('mouseup', this.onMouseUp.bind(this));
+		}
 
-			onMouseDown() {
-				this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-				this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		onMouseDown() {
+			this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-				const vector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0.5);
-				vector.unproject(this.camera);
-				const dir = vector.sub(this.camera.position).normalize();
-				const distance = -this.camera.position.z / dir.z;
-				this.currenPosition = this.camera.position.clone().add(dir.multiplyScalar(distance));
+			const vector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0.5);
+			vector.unproject(this.camera);
+			const dir = vector.sub(this.camera.position).normalize();
+			const distance = -this.camera.position.z / dir.z;
+			this.currenPosition = this.camera.position.clone().add(dir.multiplyScalar(distance));
 
+			const pos = this.particles.geometry.attributes.position;
+			this.buttom = true;
+			this.data.ease = 0.01;
+		}
+
+		onMouseUp() {
+			this.buttom = false;
+			this.data.ease = 0.05;
+		}
+
+		onMouseMove() {
+			this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		}
+
+		render(level) {
+			const time = ((0.001 * performance.now()) % 12) / 12;
+			const zigzagTime = (1 + Math.sin(time * 2 * Math.PI)) / 6;
+
+			this.raycaster.setFromCamera(this.mouse, this.camera);
+
+			const intersects = this.raycaster.intersectObject(this.planeArea);
+
+			if (intersects.length > 0) {
 				const pos = this.particles.geometry.attributes.position;
-				this.buttom = true;
-				this.data.ease = 0.01;
-			}
+				const copy = this.geometryCopy.attributes.position;
+				const coulors = this.particles.geometry.attributes.customColor;
+				const size = this.particles.geometry.attributes.size;
 
-			onMouseUp() {
-				this.buttom = false;
-				this.data.ease = 0.05;
-			}
+				const mx = intersects[0].point.x;
+				const my = intersects[0].point.y;
+				const mz = intersects[0].point.z;
 
-			onMouseMove() {
-				this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-				this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-			}
+				for (var i = 0, l = pos.count; i < l; i++) {
+					const initX = copy.getX(i);
+					const initY = copy.getY(i);
+					const initZ = copy.getZ(i);
 
-			render(level) {
-				const time = ((0.001 * performance.now()) % 12) / 12;
-				const zigzagTime = (1 + Math.sin(time * 2 * Math.PI)) / 6;
+					let px = pos.getX(i);
+					let py = pos.getY(i);
+					let pz = pos.getZ(i);
 
-				this.raycaster.setFromCamera(this.mouse, this.camera);
+					this.colorChange.setHSL(0.5, 1, 1);
+					coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+					coulors.needsUpdate = true;
 
-				const intersects = this.raycaster.intersectObject(this.planeArea);
+					size.array[i] = this.data.particleSize;
+					size.needsUpdate = true;
 
-				if (intersects.length > 0) {
-					const pos = this.particles.geometry.attributes.position;
-					const copy = this.geometryCopy.attributes.position;
-					const coulors = this.particles.geometry.attributes.customColor;
-					const size = this.particles.geometry.attributes.size;
+					let dx = mx - px;
+					let dy = my - py;
+					const dz = mz - pz;
 
-					const mx = intersects[0].point.x;
-					const my = intersects[0].point.y;
-					const mz = intersects[0].point.z;
+					const mouseDistance = this.distance(mx, my, px, py);
+					let d = (dx = mx - px) * dx + (dy = my - py) * dy;
+					const f = -this.data.area / d;
 
-					for (var i = 0, l = pos.count; i < l; i++) {
-						const initX = copy.getX(i);
-						const initY = copy.getY(i);
-						const initZ = copy.getZ(i);
+					if (this.buttom) {
+						const t = Math.atan2(dy, dx);
+						px -= f * Math.cos(t);
+						py -= f * Math.sin(t);
 
-						let px = pos.getX(i);
-						let py = pos.getY(i);
-						let pz = pos.getZ(i);
-
-						this.colorChange.setHSL(0.5, 1, 1);
+						this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
 						coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
 						coulors.needsUpdate = true;
 
-						size.array[i] = this.data.particleSize;
-						size.needsUpdate = true;
-
-						let dx = mx - px;
-						let dy = my - py;
-						const dz = mz - pz;
-
-						const mouseDistance = this.distance(mx, my, px, py);
-						let d = (dx = mx - px) * dx + (dy = my - py) * dy;
-						const f = -this.data.area / d;
-
-						if (this.buttom) {
-							const t = Math.atan2(dy, dx);
-							px -= f * Math.cos(t);
-							py -= f * Math.sin(t);
-
-							this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
+						if (px > initX + 70 || px < initX - 70 || py > initY + 70 || py < initY - 70) {
+							this.colorChange.setHSL(0.15, 1.0, 0.5);
 							coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
 							coulors.needsUpdate = true;
+						}
+					} else {
+						if (mouseDistance < this.data.area) {
+							if (i % 5 == 0) {
+								const t = Math.atan2(dy, dx);
+								px -= 0.03 * Math.cos(t);
+								py -= 0.03 * Math.sin(t);
 
-							if (px > initX + 70 || px < initX - 70 || py > initY + 70 || py < initY - 70) {
 								this.colorChange.setHSL(0.15, 1.0, 0.5);
 								coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
 								coulors.needsUpdate = true;
+
+								size.array[i] = this.data.particleSize / 1.2;
+								size.needsUpdate = true;
+							} else {
+								const t = Math.atan2(dy, dx);
+								px += f * Math.cos(t);
+								py += f * Math.sin(t);
+
+								pos.setXYZ(i, px, py, pz);
+								pos.needsUpdate = true;
+
+								size.array[i] = this.data.particleSize * 1.3;
+								size.needsUpdate = true;
 							}
-						} else {
-							if (mouseDistance < this.data.area) {
-								if (i % 5 == 0) {
-									const t = Math.atan2(dy, dx);
-									px -= 0.03 * Math.cos(t);
-									py -= 0.03 * Math.sin(t);
 
-									this.colorChange.setHSL(0.15, 1.0, 0.5);
-									coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-									coulors.needsUpdate = true;
+							if (px > initX + 10 || px < initX - 10 || py > initY + 10 || py < initY - 10) {
+								this.colorChange.setHSL(0.15, 1.0, 0.5);
+								coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+								coulors.needsUpdate = true;
 
-									size.array[i] = this.data.particleSize / 1.2;
-									size.needsUpdate = true;
-								} else {
-									const t = Math.atan2(dy, dx);
-									px += f * Math.cos(t);
-									py += f * Math.sin(t);
-
-									pos.setXYZ(i, px, py, pz);
-									pos.needsUpdate = true;
-
-									size.array[i] = this.data.particleSize * 1.3;
-									size.needsUpdate = true;
-								}
-
-								if (px > initX + 10 || px < initX - 10 || py > initY + 10 || py < initY - 10) {
-									this.colorChange.setHSL(0.15, 1.0, 0.5);
-									coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-									coulors.needsUpdate = true;
-
-									size.array[i] = this.data.particleSize / 1.8;
-									size.needsUpdate = true;
-								}
+								size.array[i] = this.data.particleSize / 1.8;
+								size.needsUpdate = true;
 							}
 						}
+					}
 
-						px += (initX - px) * this.data.ease;
-						py += (initY - py) * this.data.ease;
-						pz += (initZ - pz) * this.data.ease;
+					px += (initX - px) * this.data.ease;
+					py += (initY - py) * this.data.ease;
+					pz += (initZ - pz) * this.data.ease;
 
-						pos.setXYZ(i, px, py, pz);
-						pos.needsUpdate = true;
+					pos.setXYZ(i, px, py, pz);
+					pos.needsUpdate = true;
+				}
+			}
+		}
+
+		createText() {
+			let thePoints = [];
+
+			let shapes = this.font.generateShapes(this.data.text, this.data.textSize);
+			let geometry = new THREE.ShapeGeometry(shapes);
+			geometry.computeBoundingBox();
+
+			const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+			const yMid = (geometry.boundingBox.max.y - geometry.boundingBox.min.y) / 2.85;
+
+			geometry.center();
+
+			let holeShapes = [];
+
+			for (let q = 0; q < shapes.length; q++) {
+				let shape = shapes[q];
+
+				if (shape.holes && shape.holes.length > 0) {
+					for (let j = 0; j < shape.holes.length; j++) {
+						let hole = shape.holes[j];
+						holeShapes.push(hole);
 					}
 				}
 			}
+			shapes.push.apply(shapes, holeShapes);
 
-			createText() {
-				let thePoints = [];
+			let colors = [];
+			let sizes = [];
 
-				let shapes = this.font.generateShapes(this.data.text, this.data.textSize);
-				let geometry = new THREE.ShapeGeometry(shapes);
-				geometry.computeBoundingBox();
+			for (let x = 0; x < shapes.length; x++) {
+				let shape = shapes[x];
 
-				const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
-				const yMid = (geometry.boundingBox.max.y - geometry.boundingBox.min.y) / 2.85;
+				const amountPoints = shape.type == 'Path' ? this.data.amount / 2 : this.data.amount;
 
-				geometry.center();
+				let points = shape.getSpacedPoints(amountPoints);
 
-				let holeShapes = [];
+				points.forEach((element, z) => {
+					const a = new THREE.Vector3(element.x, element.y, 0);
+					thePoints.push(a);
+					colors.push(this.colorChange.r, this.colorChange.g, this.colorChange.b);
+					sizes.push(1);
+				});
+			}
 
-				for (let q = 0; q < shapes.length; q++) {
-					let shape = shapes[q];
+			let geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
+			geoParticles.translate(xMid, yMid, 0);
 
-					if (shape.holes && shape.holes.length > 0) {
-						for (let j = 0; j < shape.holes.length; j++) {
-							let hole = shape.holes[j];
-							holeShapes.push(hole);
-						}
-					}
-				}
-				shapes.push.apply(shapes, holeShapes);
+			geoParticles.setAttribute('customColor', new THREE.Float32BufferAttribute(colors, 3));
+			geoParticles.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
-				let colors = [];
-				let sizes = [];
-
-				for (let x = 0; x < shapes.length; x++) {
-					let shape = shapes[x];
-
-					const amountPoints = shape.type == 'Path' ? this.data.amount / 2 : this.data.amount;
-
-					let points = shape.getSpacedPoints(amountPoints);
-
-					points.forEach((element, z) => {
-						const a = new THREE.Vector3(element.x, element.y, 0);
-						thePoints.push(a);
-						colors.push(this.colorChange.r, this.colorChange.g, this.colorChange.b);
-						sizes.push(1);
-					});
-				}
-
-				let geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
-				geoParticles.translate(xMid, yMid, 0);
-
-				geoParticles.setAttribute('customColor', new THREE.Float32BufferAttribute(colors, 3));
-				geoParticles.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
-
-				const material = new THREE.ShaderMaterial({
-					uniforms: {
-						color: { value: new THREE.Color(0xffffff) },
-						pointTexture: { value: this.particleImg }
-					},
-					vertexShader: `
+			const material = new THREE.ShaderMaterial({
+				uniforms: {
+					color: { value: new THREE.Color(0xffffff) },
+					pointTexture: { value: this.particleImg }
+				},
+				vertexShader: `
                     attribute float size;
                     attribute vec3 customColor;
                     varying vec3 vColor;
@@ -244,7 +245,7 @@
 
                     }
                     `,
-					fragmentShader: `
+				fragmentShader: `
                     uniform vec3 color;
                     uniform sampler2D pointTexture;
 
@@ -258,37 +259,37 @@
                     }
                     `,
 
-					blending: THREE.AdditiveBlending,
-					depthTest: false,
-					transparent: true
-				});
+				blending: THREE.AdditiveBlending,
+				depthTest: false,
+				transparent: true
+			});
 
-				this.particles = new THREE.Points(geoParticles, material);
-				this.scene.add(this.particles);
+			this.particles = new THREE.Points(geoParticles, material);
+			this.scene.add(this.particles);
 
-				this.geometryCopy = new THREE.BufferGeometry();
-				this.geometryCopy.copy(this.particles.geometry);
-			}
-
-			visibleHeightAtZDepth(depth, camera) {
-				const cameraOffset = camera.position.z;
-				if (depth < cameraOffset) depth -= cameraOffset;
-				else depth += cameraOffset;
-
-				const vFOV = (camera.fov * Math.PI) / 180;
-
-				return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
-			}
-
-			visibleWidthAtZDepth(depth, camera) {
-				const height = this.visibleHeightAtZDepth(depth, camera);
-				return height * camera.aspect;
-			}
-
-			distance(x1, y1, x2, y2) {
-				return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-			}
+			this.geometryCopy = new THREE.BufferGeometry();
+			this.geometryCopy.copy(this.particles.geometry);
 		}
+
+		visibleHeightAtZDepth(depth, camera) {
+			const cameraOffset = camera.position.z;
+			if (depth < cameraOffset) depth -= cameraOffset;
+			else depth += cameraOffset;
+
+			const vFOV = (camera.fov * Math.PI) / 180;
+
+			return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
+		}
+
+		visibleWidthAtZDepth(depth, camera) {
+			const height = this.visibleHeightAtZDepth(depth, camera);
+			return height * camera.aspect;
+		}
+
+		distance(x1, y1, x2, y2) {
+			return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+		}
+	}
 	class Environment {
 		constructor(font, particle) {
 			this.font = font;
@@ -350,28 +351,28 @@
 			this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
 		}
 	}
-    const setYeeYeeAssHaircut = (element) => {
-        let manager = new THREE.LoadingManager();
-			manager.onLoad = function () {
-				const environment = new Environment(typo, particle);
-			};
+	const setYeeYeeAssHaircut = (element) => {
+		let manager = new THREE.LoadingManager();
+		manager.onLoad = function () {
+			const environment = new Environment(typo, particle);
+		};
 
-			var typo = null;
-			const loader = new FontLoader(manager);
-			const font = loader.load(
-				'/data/hero-font.json',
-				function (font) {
-					typo = font;
-				}
-			);
-			const particle = new THREE.TextureLoader(manager).load(
-				'/images/hero-particle.png'
-			);
-    }
+		var typo = null;
+		const loader = new FontLoader(manager);
+		const font = loader.load('/data/hero-font.json', function (font) {
+			typo = font;
+		});
+		const particle = new THREE.TextureLoader(manager).load('/images/hero-particle.png');
+	};
 </script>
 
 <div id="magic" use:setYeeYeeAssHaircut />
-
+<div class="playground">
+	<Icon icon="mingcute:down-fill" />
+	<h1>
+		Scroll Down
+	</h1>
+</div>
 <style>
 	#magic {
 		position: fixed;
@@ -381,5 +382,20 @@
 		top: 0;
 		left: 0;
 		z-index: -9999;
+	}
+	.playground {
+		position: fixed;
+		width: 100%;
+		height: 100vh;
+		display: block;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		color: white;
+		padding-bottom: 20px;
 	}
 </style>
