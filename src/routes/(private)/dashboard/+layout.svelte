@@ -9,7 +9,7 @@
 
 <AppShell>
   <svelte:fragment slot="sidebarLeft">
-    <div class="p-2 pt-24 h-full overflow-y-auto">
+    <div class="p-2 h-full overflow-y-auto">
       <h2 class="h2">
         Your Servers
       </h2>
@@ -39,14 +39,8 @@
       {/await}
     </div>
   </svelte:fragment>
-  <div class="flex flex-col items-center">
-    <div class="container">
-      <h1 class="h1">
-        Hi {$page.data.user.name} 👋
-      </h1>
-      <h2 class="h2">
-        Welcome to your Maya Dashboard! ✨
-      </h2>
+  <div class="flex flex-col  w-full h-full items-center">
+    <div class="container w-full h-full">
       <slot />
     </div>
   </div>
