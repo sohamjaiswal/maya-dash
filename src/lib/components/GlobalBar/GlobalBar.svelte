@@ -2,9 +2,14 @@
 	import {
 		AppBar,
 		getDrawerStore,
-		type DrawerSettings
+		type DrawerSettings,
+
+		Avatar
+
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
+	import { page } from '$app/stores';
+	import LoginWithMaya from '$lib/components/LoginWithMaya/LoginWithMaya.svelte';
 	const drawerStore = getDrawerStore();
 	const drawerSettings: DrawerSettings = {
 		width: 'w-[280px] md:w-[480px]',
@@ -23,15 +28,25 @@
 		</a>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
-		<div>
-			<!-- trigger -->
+		<div class="flex gap-4 items-center">
+			{#if !($page.data.user)}
+			<LoginWithMaya />
+			{/if}
 			<button
 				class="btn btn-icon"
 				on:click={() => {
 					drawerStore.open(drawerSettings);
 				}}
-			>
-				<Icon icon="mdi:hamburger-menu" />
+			>	
+				{#if !($page.data.user)}
+				<div class="flex gap-4 items-center">
+					<Icon icon="mdi:hamburger-menu" />
+				</div>
+				{:else}
+				<div class="flex gap-4 items-center">
+					<Avatar src={$page.data.user.avatar} width="w-12" rounded="rounded-full" />
+				</div>
+				{/if}
 			</button>
 		</div>
 	</svelte:fragment>

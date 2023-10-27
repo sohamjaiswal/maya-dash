@@ -1,20 +1,7 @@
 <script lang="ts">
+	import type { PropahServa, ServersRecord } from "$lib/types/maya";
 	import { Avatar } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
-  interface LimitedServer {
-    name: string
-    avatar: string
-    banner: string
-  }
-  interface PropahServa {
-    id: string
-    name: string
-    avatar: string
-    banner: string
-  }
-  type ServersRecord = {
-    [key: string]: LimitedServer
-  }
   let useServers: PropahServa[] = []
   onMount(async() => {
     const servers = (await (await fetch(`https://api.mayabot.xyz/servers`)).json()).data.servers_list as ServersRecord

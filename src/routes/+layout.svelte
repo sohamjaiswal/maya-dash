@@ -48,7 +48,7 @@
 			</a>
 			{#if $page.data.user}
 			<hr class="w-2/3" />
-			<a href="profile" on:click={() => drawerStore.close()} >
+			<a href="/profile" on:click={() => drawerStore.close()} >
 			<div class="flex flex-col items-center w-full">
 					<Avatar src={$page.data.user.avatar} width="w-16" />
 					<div class="flex gap-2 items-center mt-2">
