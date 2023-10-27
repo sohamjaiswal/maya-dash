@@ -54,7 +54,7 @@
 </script>
 
 <div class="flex flex-col items-center gap-4">
-  <div class="container mt-28 flex flex-col items-center gap-4">
+  <div class="container flex flex-col items-center gap-4">
     <h1 class="h1">
       Hi {guildedUser?.name} 👋
     </h1>

@@ -1,17 +1,10 @@
-<script>
+<!-- <script>
 	import YeeYeeAssHaircut from "$lib/components/YeeYeeAssHaircut/YeeYeeAssHaircut.svelte";
 	import { onMount } from "svelte";
-
-	onMount(async() => {
-		const servers = await fetch(`https://api.mayabot.xyz/servers`)
-		if (servers.ok) {
-			console.log(await servers.json())
-		}
-	})
-</script>
+</script> -->
 <!-- <YeeYeeAssHaircut /> -->
 <div class="container h-full mx-auto flex flex-col justify-center snap-y">
-	<section class="h-screen w-full flex flex-col pt-44 gap-4 md:pt-0 items-center md:flex-row snap-center snap-mandatory">
+	<section class="h-screen w-full flex flex-col gap-4 md:pt-0 items-center md:flex-row snap-center snap-mandatory">
 		<div class="w-1/2 flex justify-center items-center">
 			<img src="/images/maya-logo.png" alt="Maya Logo" class=" rounded-lg">
 		</div>
@@ -25,7 +18,6 @@
 		<h2 class="h2">
 			Invite Today!
 		</h2>
-
 	</section>
 </div>
 <!-- <YeeYeeAssHaircut /> -->

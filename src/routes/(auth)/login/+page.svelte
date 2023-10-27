@@ -44,7 +44,7 @@
 
 </script>
 
-<main class="px-8 flex flex-col gap-4 mt-28">
+<main class="px-8 flex flex-col gap-4">
   {#if message}
   <p class="text-error-500">
     {message}

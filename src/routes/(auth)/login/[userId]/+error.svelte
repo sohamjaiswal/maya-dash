@@ -5,5 +5,5 @@
     Error
 </h1>
 <p class="p">
-    {$page.error.message}
+    {$page.error?.message}
 </p>
