@@ -3,6 +3,7 @@
 	import { SlideToggle } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
   export let data
+  export let form
   $: log_enabled = true
   $: welcome_enabled = true
   onMount(async() => {
@@ -18,13 +19,23 @@
     Loading...
   </p>
   {:then serverData}
+  {#if form?.success}
+  <p class="text-center text-primary-500">
+    Updated successfully
+  </p>
+  {/if}
+  {#if form?.message}
+  <p class="text-center text-error-500">
+    {form.message}
+  </p>
+  {/if}
     <form action="?/updateServerSettings" method="post" class="flex flex-col gap-4" use:enhance>
       <h1 class="h1">
         General Settings
       </h1>
       <label for="prefix">
         Prefix
-        <input class="input" type="text" id="prefix" name="prefix" value={serverData.settings.prefix} placeholder="?" />
+        <input class="input" type="text" id="prefix" name="prefix" value={form?.prefix ?? serverData.settings.prefix} placeholder="?" />
       </label>
       <label for="log_enabled" class="flex items-center gap-4">
         Enable Logs
@@ -35,15 +46,15 @@
       <div class="card p-6 flex flex-col gap-4">
         <label for="log_actions_channel">
           Log Actions Channel
-          <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={serverData.settings.log_actions_channel} placeholder="abcde" />
+          <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} placeholder="abcde" />
         </label>
         <label for="log_events_channel">
           Log Events Channel
-          <input class="input" type="text" id="log_events_channel" name="log_events_channel" value={serverData.settings.log_events_channel} placeholder="abcde" />
+          <input class="input" type="text" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} placeholder="abcde" />
         </label>
         <label for="log_traffic_channel">
           Log Traffic Channel
-          <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={serverData.settings.log_traffic_channel} placeholder="abcde" />
+          <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel} placeholder="abcde" />
         </label>
       </div>
         {/if}
@@ -55,11 +66,11 @@
       <div class="card p-6 flex flex-col gap-4">
         <label for="welcome_channel">
           Welcome Channel
-          <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={serverData.settings.welcome_channel} placeholder="abcde" />
+          <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" />
         </label>
         <label for="welcome_message">
           Welcome Message
-          <textarea class="input" id="welcome_message" name="welcome_message" placeholder="Welcome to the server!">{serverData.settings.welcome_message}</textarea>
+          <textarea class="input" id="welcome_message" name="welcome_message" placeholder="Welcome to the server!">{form?.welcome_message ?? serverData.settings.welcome_message}</textarea>
         </label>
       </div>
         {/if}

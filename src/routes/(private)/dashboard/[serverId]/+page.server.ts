@@ -1,5 +1,5 @@
 import type { ServerSettings } from "$lib/types/maya.js"
-import { redirect } from "@sveltejs/kit"
+import { fail, redirect } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
   const getServerData = async () => {
@@ -73,8 +73,8 @@ export const actions = {
     if (updateServerSettingsRes.ok) {
       const rxD = await updateServerSettingsRes.json()
       console.log("updated!",rxD)
-      return
+      return {success: true}
     }
-    console.log(updateServerSettingsRes)
+    return fail(400, {message: "Settings failed to update!"})
   }
 }
