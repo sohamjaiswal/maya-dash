@@ -1,5 +1,5 @@
 import type { PropahServa, ServersRecord, UsersRecord } from '$lib/types/maya';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load = async({locals}) => {
   if (!locals.user) {
@@ -11,12 +11,16 @@ export const load = async({locals}) => {
       id,
       ...serversRes[id],
     }));
-    const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
-      const staffList = (await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()).data.staff_members as UsersRecord;
-      const doesModServer = Object.keys(staffList).includes(selfId)
-      return doesModServer;
-    })
-    return selfStaffedServers;
+    try {
+      const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
+        const staffList = (await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()).data.staff_members as UsersRecord;
+        const doesModServer = Object.keys(staffList).includes(selfId)
+        return doesModServer;
+      })
+      return selfStaffedServers;
+    } catch {
+      throw error(500, 'Internal Server Error')
+    }
   }
   return {lazy: {moderatingServers: findStaffedServers(locals.user.id)}}
 }

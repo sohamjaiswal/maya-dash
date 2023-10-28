@@ -9,6 +9,7 @@ declare global {
 				name: string
 				avatar: string
 				banner: string
+				mayaToken: string
 			}
 		}
 		// interface PageData {}

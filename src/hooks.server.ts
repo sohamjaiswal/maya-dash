@@ -31,7 +31,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         }, method: 'GET'
       })).json()).data as { name: string; avatar: string; banner: string; }
       if (userData) {
-				event.locals.user = {id: decodedMayaToken.userId,...userData};
+				event.locals.user = {id: decodedMayaToken.userId, mayaToken: decodedMayaToken.token,...userData};
 			}
 	}
 	catch (e) {

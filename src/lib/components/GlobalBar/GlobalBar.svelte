@@ -18,7 +18,7 @@
 	};
 </script>
 
-<AppBar shadow="shadow-2xl" slotTrail="!space-x-2" class="w-full">
+<AppBar shadow="shadow-2xl" slotTrail="!space-x-2" class="w-full mb-6">
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<div class="flex items-center space-x-4">
