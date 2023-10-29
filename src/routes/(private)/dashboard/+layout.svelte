@@ -61,8 +61,8 @@
       {/await}
     </div>
   </svelte:fragment>
-  <div class="flex flex-col  w-full h-full items-center">
-    <div class="container w-full h-full">
+  <div class="flex flex-col  w-full items-center">
+    <div class="container w-full">
       <slot />
     </div>
   </div>

@@ -53,3 +53,43 @@ export interface AuditElement {
 export type AuditRecords = {
   [key: number]: AuditElement
 }
+
+export interface MemberRole {
+  name: string;
+  position: number;
+}
+
+export interface MemberRecord {
+  avatar?: string;
+  badges: any[];
+  banner?: string;
+  name: string;
+  nickname?: string;
+  position: number;
+  roles: Record<string, MemberRole>;
+  serverPermissions: string[];
+}
+
+export type MembersRecord = {
+  [key: string]: MemberRecord;
+}
+
+export interface RoleData {
+  roleId: string;
+  name: string;
+  position: number;
+}
+
+export interface MemberData {
+  id: string;
+  avatar?: string;
+  badges: any[];
+  banner?: string;
+  name: string;
+  nickname?: string;
+  position: number;
+  roles: RoleData[];
+  serverPermissions: string[];
+}
+
+export type MembersData = MemberData[];

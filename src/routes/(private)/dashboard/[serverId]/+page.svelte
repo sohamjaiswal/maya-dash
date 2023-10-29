@@ -30,8 +30,8 @@
   </p>
   {/if}
     <form action="?/updateServerSettings" method="post" class="flex flex-col gap-4" use:enhance>
-      <h1 class="h1">
-        General Settings
+      <h1 class="h1 mb-6">
+        🏠 General Settings
       </h1>
       <label for="prefix">
         Prefix
@@ -42,8 +42,7 @@
         <!-- <SlideToggle name="log_enabled" id="log_enabled" checked={serverData.settings.log_enabled} on:load={() => log_enabled = serverData.settings.log_enabled} on:change={() => log_enabled = !log_enabled} /> -->
           <SlideToggle name="log_enabled" id="log_enabled" bind:checked={log_enabled} />
       </label>
-      {#if log_enabled}
-      <div class="card p-6 flex flex-col gap-4">
+      <div class={`card p-6 flex flex-col gap-4 ${log_enabled ? 'block' : 'hidden'}`}>
         <label for="log_actions_channel">
           Log Actions Channel
           <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} placeholder="abcde" />
@@ -57,13 +56,11 @@
           <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel} placeholder="abcde" />
         </label>
       </div>
-        {/if}
       <label for="welcome_channel_enabled" class="flex items-center gap-4">
         Enable Welcome Channel
         <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled} />
       </label>
-      {#if welcome_enabled}
-      <div class="card p-6 flex flex-col gap-4">
+      <div class={`card p-6 flex flex-col gap-4 ${welcome_enabled ? 'block' : 'hidden'}`}>
         <label for="welcome_channel">
           Welcome Channel
           <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" />
@@ -73,7 +70,6 @@
           <textarea class="input" id="welcome_message" name="welcome_message" placeholder="Welcome to the server!">{form?.welcome_message ?? serverData.settings.welcome_message}</textarea>
         </label>
       </div>
-        {/if}
       <button type="submit" class="btn variant-filled-primary">
         Update Settings
       </button>

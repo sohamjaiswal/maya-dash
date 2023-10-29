@@ -38,6 +38,7 @@ export const actions = {
     const log_traffic_channel = data.get('log_traffic_channel')
     const welcome_channel = data.get('welcome_channel')
     const welcome_message = data.get('welcome_message')
+    console.log(prefix, log_enabled, welcome_channel_enabled, log_actions_channel, log_events_channel, log_traffic_channel, welcome_channel, welcome_message)
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update`, {
       method: 'POST',
       headers: {
