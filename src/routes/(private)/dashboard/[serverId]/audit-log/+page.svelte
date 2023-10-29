@@ -43,61 +43,69 @@
 	<div class="flex flex-col gap-4 p-2">
 		<div class="h-[calc(100vh-16rem)] overflow-y-scroll flex flex-col gap-4">
 			{#each paginatedAudits as audit}
-				<div class="card p-4 flex items-center bg-initial justify-between">
+				<div class="card p-4 grid grid-cols-5 bg-initial w-full">
 					<div class="flex gap-2 items-center">
 						<Avatar src={audit.user.avatar} width="w-12" rounded="rounded-full" />
 						{audit.user.name}
 					</div>
-					{#if audit.action == 'Kick'}
-						🥾 Kicked
-					{:else if audit.action == 'Ban'}
-						🚫 Banned
-					{:else if audit.action == 'Unban'}
-						🚫 Unbanned
-					{:else if audit.action == 'Mute'}
-						🔇 Muted
-					{:else if audit.action == 'Unmute'}
-						🔊 Unmuted
-					{:else if audit.action == 'Warn'}
-						⚠️ Warned
-					{:else if audit.action == 'Unwarn'}
-						⚠️ Unwarned
-					{:else if audit.action == 'ClearWarns'}
-						⚠️ Cleared Warns
-					{:else if audit.action == 'ClearMutes'}
-						🔇 Cleared Mutes
-					{:else if audit.action == 'ClearKicks'}
-						🥾 Cleared Kicks
-					{:else if audit.action == 'ClearBans'}
-						🚫 Cleared Bans
-					{:else if audit.action == 'ClearLogs'}
-						📜 Cleared Logs
-					{:else if audit.action == 'ClearAll'}
-						🧹 Cleared All
-					{:else if audit.action == 'Clear'}
-						🧹 Cleared
-					{:else if audit.action == 'ClearMessages'}
-						🗑️ Cleared Messages
-					{:else if audit.action == 'ClearMessagesFrom'}
-						🗑️ Cleared Messages From
-					{:else if audit.action == 'ClearMessagesBetween'}
-						🗑️ Cleared Messages Between
-					{:else if audit.action == 'ClearMessagesFromBy'}
-						🗑️ Cleared Messages From By
-					{:else if audit.action == 'ClearMessagesFromIn'}
-						🗑️ Cleared Messages From In
-					{:else if audit.action == 'ClearMessagesFromBetween'}
-						🗑️ Cleared Messages From Between
-					{:else if audit.action == 'ClearMessagesByIn'}
-						🗑️ Cleared Messages By In
-					{:else if audit.action == 'ClearMessagesByBetween'}
-						🗑️ Cleared Messages By Between
-					{:else if audit.action == 'ClearMessagesInBetween'}
-						🗑️ Cleared Messages In Between
-					{/if}
-					<div class="flex gap-2 items-center">
-						<Avatar src={audit.victim.avatar} width="w-12" rounded="rounded-full" />
+					<div class="flex items-center">
+						{audit.user.id}
+					</div>
+					<div class="flex items-center">
+						{#if audit.action == 'Kick'}
+							🥾 Kicked
+						{:else if audit.action == 'Ban'}
+							🚫 Banned
+						{:else if audit.action == 'Unban'}
+							🚫 Unbanned
+						{:else if audit.action == 'Mute'}
+							🔇 Muted
+						{:else if audit.action == 'Unmute'}
+							🔊 Unmuted
+						{:else if audit.action == 'Warn'}
+							⚠️ Warned
+						{:else if audit.action == 'Unwarn'}
+							⚠️ Unwarned
+						{:else if audit.action == 'ClearWarns'}
+							⚠️ Cleared Warns
+						{:else if audit.action == 'ClearMutes'}
+							🔇 Cleared Mutes
+						{:else if audit.action == 'ClearKicks'}
+							🥾 Cleared Kicks
+						{:else if audit.action == 'ClearBans'}
+							🚫 Cleared Bans
+						{:else if audit.action == 'ClearLogs'}
+							📜 Cleared Logs
+						{:else if audit.action == 'ClearAll'}
+							🧹 Cleared All
+						{:else if audit.action == 'Clear'}
+							🧹 Cleared
+						{:else if audit.action == 'ClearMessages'}
+							🗑️ Cleared Messages
+						{:else if audit.action == 'ClearMessagesFrom'}
+							🗑️ Cleared Messages From
+						{:else if audit.action == 'ClearMessagesBetween'}
+							🗑️ Cleared Messages Between
+						{:else if audit.action == 'ClearMessagesFromBy'}
+							🗑️ Cleared Messages From By
+						{:else if audit.action == 'ClearMessagesFromIn'}
+							🗑️ Cleared Messages From In
+						{:else if audit.action == 'ClearMessagesFromBetween'}
+							🗑️ Cleared Messages From Between
+						{:else if audit.action == 'ClearMessagesByIn'}
+							🗑️ Cleared Messages By In
+						{:else if audit.action == 'ClearMessagesByBetween'}
+							🗑️ Cleared Messages By Between
+						{:else if audit.action == 'ClearMessagesInBetween'}
+							🗑️ Cleared Messages In Between
+						{/if}
+					</div>
+					<div class="flex items-center">
+						{audit.victim.id}
+					</div>
+					<div class="flex gap-2 items-center justify-end">
 						{audit.victim.name}
+						<Avatar src={audit.victim.avatar} width="w-12" rounded="rounded-full" />
 					</div>
 				</div>
 			{/each}
