@@ -31,15 +31,16 @@ export const actions = {
       throw redirect(302, '/login')
     }
     const data = await request.formData()
-    const baneeId = data.get('id')
+    const user_id = data.get('id')
     const sirBansABitch = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/ban`, {
       method: 'POST',
       headers: {
         UserID: locals.user.id,
-        Token: locals.user.mayaToken
+        Token: locals.user.mayaToken,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_id: baneeId
+        user_id
       })
     })
     if (sirBansABitch.ok) {
@@ -48,7 +49,7 @@ export const actions = {
       return {success: true}
     }
     return fail(400, {
-      id: baneeId
+      id: user_id
     })
   },
   kick: async ({params, locals, request}) => {
@@ -56,15 +57,16 @@ export const actions = {
       throw redirect(302, '/login')
     }
     const data = await request.formData()
-    const kickeeId = data.get('id')
+    const user_id = data.get('id')
     const sirKicksABitch = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/ban`, {
       method: 'POST',
       headers: {
         UserID: locals.user.id,
-        Token: locals.user.mayaToken
+        Token: locals.user.mayaToken,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_id: kickeeId
+        user_id
       })
     })
     console.log(sirKicksABitch)
@@ -74,7 +76,7 @@ export const actions = {
       return {success: true}
     }
     return fail(400, {
-      id: kickeeId
+      id: user_id
     })
   }
 }
