@@ -34,3 +34,22 @@ export interface ServerSettings {
     welcome_message?: string
   }
 }
+
+export interface AuditElement {
+  action: "Kick" | "Ban"
+  time: number
+  user: {
+    avatar: string
+    id: string
+    name: string
+  }
+  victim: {
+    avatar: string
+    id: string
+    name: string
+  }
+}
+
+export type AuditRecords = {
+  [key: number]: AuditElement
+}

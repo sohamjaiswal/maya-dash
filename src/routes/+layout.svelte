@@ -136,5 +136,7 @@
 		<GlobalBar />
 	</svelte:fragment>
 	<!-- Page Route Content -->
-	<slot />
+	<div class="pt-1">
+		<slot />
+	</div>
 </AppShell>

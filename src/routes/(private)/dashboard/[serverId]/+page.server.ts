@@ -38,19 +38,6 @@ export const actions = {
     const log_traffic_channel = data.get('log_traffic_channel')
     const welcome_channel = data.get('welcome_channel')
     const welcome_message = data.get('welcome_message')
-    console.log("payload:",
-      JSON.stringify({
-        economy_type: 'global',
-        prefix,
-        log_enabled: log_enabled === 'on',
-        welcome_channel_enabled: welcome_channel_enabled === 'on',
-        log_actions_channel,
-        log_events_channel,
-        log_traffic_channel,
-        welcome_channel,
-        welcome_message
-      })
-    )
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update`, {
       method: 'POST',
       headers: {
@@ -75,6 +62,16 @@ export const actions = {
       console.log("updated!",rxD)
       return {success: true}
     }
-    return fail(400, {message: "Settings failed to update!"})
+    return fail(400, {
+      prefix,
+      log_enabled,
+      welcome_channel_enabled,
+      log_actions_channel,
+      log_events_channel,
+      log_traffic_channel,
+      welcome_channel,
+      welcome_message,
+      message: "Settings failed to update!"
+    })
   }
 }

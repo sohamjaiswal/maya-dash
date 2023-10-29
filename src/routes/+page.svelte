@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 </script> -->
 <!-- <YeeYeeAssHaircut /> -->
-<div class="container h-full mx-auto flex flex-col justify-center snap-y">
+<div class="container h-full mx-auto flex flex-col justify-center snap-y scroll-smooth">
 	<section class="h-screen w-full flex flex-col gap-4 md:pt-0 items-center md:flex-row snap-center snap-mandatory">
 		<div class="w-1/2 flex justify-center items-center">
 			<img src="/images/maya-logo.png" alt="Maya Logo" class=" rounded-lg">
