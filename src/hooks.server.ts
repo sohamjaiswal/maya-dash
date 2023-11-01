@@ -23,7 +23,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	try {
-		const decodedMayaToken = jwt.verify(mayaToken, env.JWT_SECRET) as { userId: string; token: string };
+		const decodedMayaToken = jwt.verify(mayaToken, env.JWT_SECRET) as unknown as { userId: string; token: string };
 		const userData = (await (await fetch(`https://api.mayabot.xyz/userdata`, {
         headers: {
           UserID: decodedMayaToken.userId,

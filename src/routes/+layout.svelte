@@ -70,9 +70,7 @@
 			{#if $page.data.user}
 			<hr class="w-2/3" />
 			<form action="/logout" method="POST" class="flex flex-col gap-0 text-center">
-				<small class="text-error-500">doesn't work rn</small>
-				<small class="text-error-500 mt-0">clear cookies and ask beezo to delete session from db</small>
-				<button class="btn variant-ghost-error mb-4" type="submit" disabled>
+				<button class="btn variant-ghost-error mb-4" type="submit">
 					Logout
 				</button>
 			</form>
