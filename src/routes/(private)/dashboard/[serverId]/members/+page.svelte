@@ -8,21 +8,10 @@
 	function convertMembersRecordToMembersData(membersRecord: MembersRecord): MembersData {
 			return Object.keys(membersRecord).map((id) => {
 				const memberRecord = membersRecord[id];
-				const roles = Object.entries(memberRecord.roles).map(([roleId, roleData]) => ({
-					roleId,
-					name: roleData.name,
-					position: roleData.position
-				}));
 				return {
 					id,
 					avatar: memberRecord.avatar,
-					badges: memberRecord.badges,
-					banner: memberRecord.banner,
 					name: memberRecord.name,
-					nickname: memberRecord.nickname,
-					position: memberRecord.position,
-					roles,
-					serverPermissions: memberRecord.serverPermissions
 				};
 			});
 		}

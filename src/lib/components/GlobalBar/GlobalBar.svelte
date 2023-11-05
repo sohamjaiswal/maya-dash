@@ -3,21 +3,28 @@
 		AppBar,
 		getDrawerStore,
 		type DrawerSettings,
-
 		Avatar
-
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
 	import LoginWithMaya from '$lib/components/LoginWithMaya/LoginWithMaya.svelte';
+	import { onMount } from 'svelte';
 	const drawerStore = getDrawerStore();
 	const drawerSettings: DrawerSettings = {
 		width: 'w-[280px] md:w-[480px]',
 		padding: 'p-4',
 		rounded: 'rounded-lg'
 	};
+	$: apiStatus = {code: 200, message: 'OK'};
+	onMount(async() => {
+		apiStatus = await (await fetch('https://api.mayabot.xyz/status')).json()
+	})
 </script>
-
+{#if apiStatus.code !== 200}
+<div class="bg-red-500 text-white p-2 text-center">
+	{apiStatus.message}
+</div>
+{/if}
 <AppBar shadow="shadow-2xl" slotTrail="!space-x-2" class="w-full">
 	<svelte:fragment slot="lead">
 		<a href="/">

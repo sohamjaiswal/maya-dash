@@ -6,6 +6,7 @@ export const load = async({params}) => {
   const getCode = await fetch(`https://api.mayabot.xyz/token/${user}/generate/password`, {
     method: 'GET'
   })
+  console.log(getCode)
   const code = (await getCode.json()).data.password;
   return {code}
 }

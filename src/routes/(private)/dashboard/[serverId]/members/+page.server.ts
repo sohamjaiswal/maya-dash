@@ -1,12 +1,12 @@
 import type { MembersRecord } from "$lib/types/maya"
-import { error, redirect, fail } from "@sveltejs/kit"
+import { error, redirect } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
   const getMembersData = async () => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
-    const membersData = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/data`, {
+    const membersData = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/members`, {
       method: 'GET',
       headers: {
         UserID: locals.user.id,
@@ -16,7 +16,7 @@ export const load = async ({params, locals}) => {
     if (!membersData.ok) {
       throw error(500, 'Internal Server Error')
     }
-    return (await membersData.json()).server_data.members as MembersRecord
+    return (await membersData.json()).data.members as MembersRecord
   }
   return {
     lazy: {
@@ -44,13 +44,18 @@ export const actions = {
       })
     })
     if (sirBansABitch.ok) {
-      const data = await sirBansABitch.json()
-      console.log(data)
-      return {success: true}
+      await sirBansABitch.json()
+      const toast = {
+        success: "User banned successfully",
+      }
+      const urlsearchparams = new URLSearchParams(toast)
+      throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
     }
-    return fail(400, {
-      id: user_id
-    })
+    const toast = {
+      error: "Failed to ban user",
+    }
+    const urlsearchparams = new URLSearchParams(toast)
+    throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
   },
   kick: async ({params, locals, request}) => {
     if (!locals.user) {
@@ -71,12 +76,17 @@ export const actions = {
     })
     console.log(sirKicksABitch)
     if (sirKicksABitch.ok) {
-      const data = await sirKicksABitch.json()
-      console.log(data)
-      return {success: true}
+      await sirKicksABitch.json()
+      const toast = {
+        success: "User kicked successfully",
+      }
+      const urlsearchparams = new URLSearchParams(toast)
+      throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
     }
-    return fail(400, {
-      id: user_id
-    })
+    const toast = {
+      error: "Failed to ban user",
+    }
+    const urlsearchparams = new URLSearchParams(toast)
+    throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
   }
 }

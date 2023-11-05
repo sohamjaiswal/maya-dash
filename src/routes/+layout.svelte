@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { AppShell, Drawer, initializeStores, storePopup, getDrawerStore, type DrawerSettings, Avatar, popup, LightSwitch } from '@skeletonlabs/skeleton';
+	import { AppShell, Drawer, initializeStores, storePopup, getDrawerStore, Avatar, popup, LightSwitch, Toast, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -11,12 +11,12 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { storeTheme } from '$lib/stores/stores';
+	import { onMount } from 'svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 	const drawerStore = getDrawerStore();
 	const setTheme: SubmitFunction = ({ formData }) => {
 		const theme = formData.get('theme')?.toString();
-
 		if (theme) {
 			document.body.setAttribute('data-theme', theme);
 			$storeTheme = theme;
@@ -36,8 +36,44 @@
         // { type: 'seasonal', name: 'Seasonal', icon: '🎆' }
         // { type: 'test', name: 'Test', icon: '🚧' },
 	];
+	const toastStore = getToastStore()
+	onMount(async() => {
+		// check for success query param, do success toast if exists
+		const urlParams = new URLSearchParams(window.location.search);
+		const success = urlParams.get('success');
+		const warning = urlParams.get('warning');
+		const error = urlParams.get('error');
+		if (success) {
+			const t: ToastSettings = {
+				message: success,
+				// Provide any utility or variant background style:
+				background: 'variant-filled-success',
+				timeout: 3000,
+			};
+			toastStore.trigger(t)
+		}
+		if (warning) {
+			const t: ToastSettings = {
+				message: warning,
+				// Provide any utility or variant background style:
+				background: 'variant-filled-warning',
+				timeout: 3000,
+			};
+			toastStore.trigger(t)
+		}
+		if (error) {
+			const t: ToastSettings = {
+				message: error,
+				// Provide any utility or variant background style:
+				background: 'variant-filled-error',
+				timeout: 3000,
+			};
+			toastStore.trigger(t)
+		}
+	})
 </script>
 
+<Toast />
 <Drawer position="right">
 	<div class="flex flex-col h-full p-4 justify-between">
 		<div class="flex flex-col gap-4 mt-4 items-center w-full">

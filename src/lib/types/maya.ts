@@ -61,13 +61,7 @@ export interface MemberRole {
 
 export interface MemberRecord {
   avatar?: string;
-  badges: any[];
-  banner?: string;
   name: string;
-  nickname?: string;
-  position: number;
-  roles: Record<string, MemberRole>;
-  serverPermissions: string[];
 }
 
 export type MembersRecord = {
@@ -83,13 +77,7 @@ export interface RoleData {
 export interface MemberData {
   id: string;
   avatar?: string;
-  badges: any[];
-  banner?: string;
   name: string;
-  nickname?: string;
-  position: number;
-  roles: RoleData[];
-  serverPermissions: string[];
 }
 
 export type MembersData = MemberData[];
