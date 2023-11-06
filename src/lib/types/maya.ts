@@ -89,3 +89,25 @@ export interface MemberData {
 }
 
 export type MembersData = MemberData[];
+
+export interface StaffResData {
+  avatar: string;
+  name: string;
+  bio: string;
+  banner: string;
+}
+export interface StaffRecord {
+  [key: string]: StaffResData;
+}
+export interface StaffResRec {
+  devs: StaffRecord;
+  managers: StaffRecord;
+  staff: StaffRecord;
+}
+export interface StaffData {
+  id: string;
+  avatar: string;
+  name: string;
+  bio: string;
+  banner: string;
+}

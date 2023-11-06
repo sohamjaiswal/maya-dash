@@ -1,28 +1,8 @@
 <script lang="ts">
+	import type { StaffData } from '$lib/types/maya';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-
-	interface StaffResData {
-		avatar: string;
-		name: string;
-		bio: string;
-		banner: string;
-	}
-	interface StaffRecord {
-		[key: string]: StaffResData;
-	}
-	interface StaffResRec {
-		devs: StaffRecord;
-		managers: StaffRecord;
-		staff: StaffRecord;
-	}
-	interface StaffData {
-		id: string;
-		avatar: string;
-		name: string;
-		bio: string;
-		banner: string;
-	}
+  export let data
 	type staffsData = StaffData[];
 	let devsArr: staffsData = [];
 	let managersArr: staffsData = [];
@@ -30,9 +10,8 @@
 	$: devsArr;
 	$: managersArr;
 	$: staffArr;
-  onMount(() => {
-    fetch(`https://api.mayabot.xyz/staff`).then(async (res) => {
-      const { devs, managers, staff } = (await res.json()).data as StaffResRec;
+  onMount(async() => {
+    const {staff, devs, managers} = await data.lazy.staffData;
       // convert staffRecord to staffsData
       Object.keys(devs).forEach((id) => {
         const dev = devs[id];
@@ -73,11 +52,10 @@
           }
         ];
       });
-    });
   })
 </script>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center mt-2">
 	<div class="container">
 		<h1 class="h1">About Us 🧐</h1>
 		<article>
@@ -88,6 +66,9 @@
 		</article>
     <div class="flex flex-col gap-4">
       <h2 class="h2 mt-8">Meet the team! 🤗</h2>
+    {#await data.lazy.staffData}
+      Loading staff data...
+    {:then}
       <div class="flex flex-col items-center">
         <h3 class="h3">Developers 💻</h3>
         <div class="flex flex-wrap gap-4 justify-center p-4">
@@ -162,6 +143,9 @@
           {/each}
           </div>  
       </div>
+      {:catch}
+      An error occured while loading staff.
+      {/await}  
     </div>
 	</div>
 </div>
