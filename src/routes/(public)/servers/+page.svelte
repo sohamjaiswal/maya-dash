@@ -9,7 +9,6 @@
       id,
       ...servers[id],
     }));
-    console.log(useServers)
   })
 </script>
 

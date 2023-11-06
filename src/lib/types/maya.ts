@@ -21,6 +21,14 @@ export type UsersRecord = {
   [key: string]: LimitedUser  
 }
 export interface ServerSettings {
+  dashboard_data: {
+    bump_count: number
+    bump_enabled: boolean
+    bump_position?: number
+    bump_tags: string[]
+    bump_time: number
+    upvotes: number
+  },
   partner_status: boolean
   settings: {
     economy_type: 'global'

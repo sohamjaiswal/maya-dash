@@ -6,7 +6,6 @@ export const load = async({params}) => {
   const getCode = await fetch(`https://api.mayabot.xyz/token/${user}/generate/password`, {
     method: 'GET'
   })
-  console.log(getCode)
   const code = (await getCode.json()).data.password;
   return {code}
 }
@@ -15,14 +14,12 @@ export const actions = {
   login: async ({request, params, cookies}) => {
     const data = await request.formData()
     const password = data.get('password')
-    console.log(password)
     if (
       !password || typeof password !== 'string'
     ) {
       return fail(400, { invalid: true })
     } 
     const body = JSON.stringify({password})
-    console.log(body)
     const validate = await fetch(`https://api.mayabot.xyz/token/${params.userId}/generate/token`, {
       method: 'POST',
       body,

@@ -18,7 +18,6 @@ export const actions = {
       }
       throw redirect(302, '/')
     }
-    console.log(logout)
     throw error(500, 'Something went wrong')
   }
 }

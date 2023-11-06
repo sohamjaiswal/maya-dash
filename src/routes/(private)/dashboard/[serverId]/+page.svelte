@@ -8,7 +8,6 @@
   $: welcome_enabled = true
   onMount(async() => {
     const serverData = await data.lazy.serverData
-    console.log(serverData)
     log_enabled = serverData.settings.log_enabled
     welcome_enabled = serverData.settings.welcome_channel_enabled
   })

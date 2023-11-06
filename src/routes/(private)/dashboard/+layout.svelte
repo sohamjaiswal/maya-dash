@@ -50,6 +50,11 @@
                 📜 Audit Log
               </div>
             </a>
+            <a href={`/dashboard/${server.id}/advertise`}>
+              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/advertise`)}`}>
+                📢 Advertise
+              </div>
+            </a>
           </div>
         </div>
         {/each}

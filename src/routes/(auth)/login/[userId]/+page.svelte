@@ -16,7 +16,6 @@
   onMount(async() => {
     const userData = await (await fetch(`https://www.guilded.gg/api/users/${$page.params.userId}/profilev3`)).json() as GuildedUser
     guildedUser = userData
-    console.log(userData)
   })
 
   const handleDashActivate = async() => {
@@ -29,25 +28,19 @@
         'Content-Type': 'application/json'
       }
     })
-    console.log(validate)
     const data = await validate.json()
-    console.log(data)
     if (validate.ok) {
       userId.set(data.data.user_id)
       mayaToken.set(data.data.token)
-      console.log("SUCCESS")
       // get userdata now
-      console.log($userId, $mayaToken)
       const userData = await (await fetch(`https://api.mayabot.xyz/userdata`, {
         headers: {
           UserID: $userId,
           Token: $mayaToken
         }, method: 'GET'
       })).json()
-      console.log(userData)
       // window.location.href = "/dashboard"
     } else {
-      console.log(data)
       alert("Invalid Passcode")
     }
   }

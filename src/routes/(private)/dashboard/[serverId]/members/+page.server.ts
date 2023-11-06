@@ -74,7 +74,6 @@ export const actions = {
         user_id
       })
     })
-    console.log(sirKicksABitch)
     if (sirKicksABitch.ok) {
       await sirKicksABitch.json()
       const toast = {
