@@ -19,7 +19,7 @@
 			this.buttom = false;
 
 			this.data = {
-				text:'Maya',
+				text:`No catch phrases,\nlet's get right into it.`,
 				amount: 1500,
 				particleSize: 1,
 				particleColor: 0xffffff,

@@ -1,26 +1,32 @@
-<!-- <script>
-	import YeeYeeAssHaircut from "$lib/components/YeeYeeAssHaircut/YeeYeeAssHaircut.svelte";
+<script>
+	// import YeeYeeAssHaircut from "$lib/components/YeeYeeAssHaircut/YeeYeeAssHaircut.svelte";
 	import { onMount } from "svelte";
-</script> -->
-<!-- <YeeYeeAssHaircut /> -->
-<div class="container h-full mx-auto flex flex-col justify-center snap-y scroll-smooth">
-	<section class="h-screen w-full flex flex-col gap-4 md:pt-0 items-center md:flex-row snap-center snap-mandatory">
-		<div class="w-1/2 flex justify-center items-center">
-			<img src="/images/maya-logo.png" alt="Maya Logo" class=" rounded-lg">
+</script>
+<div class="flex justify-center h-[calc(100vh-0.5rem)]">
+	<div class="flex flex-col items-center justify-around">
+		<div class="container text-center">
+			<h1 class="h1">
+				No catchphrases, <br /> let's get right into it.
+			</h1>
 		</div>
-		<div class="w-1/2 flex justify-center items-center">
-			<h2 class="h2 text-center">
-				Maya is your ultimate Guilded Helper.
-			</h2>
+		<div class="flex w-full gap-2 flex-wrap justify-around">
+			<a href="/dashboard">
+				<button class="btn variant-filled-primary">
+					<h2 class="h2">
+						Dashboard
+					</h2>
+				</button>
+			</a>
+			<a href="/servers">
+				<button class="btn variant-filled-secondary">
+					<h2 class="h2">
+						Servers
+					</h2>
+				</button>
+			</a>
 		</div>
-	</section>
-	<section class="h-screen w-full flex flex-col justify-center items-center snap-center">
-		<h2 class="h2">
-			Invite Today!
-		</h2>
-	</section>
+	</div>
 </div>
-<!-- <YeeYeeAssHaircut /> -->
 
 <style lang="postcss">
 	figure {
