@@ -41,6 +41,11 @@ export interface ServerSettings {
     welcome_channel_enabled: boolean
     welcome_message?: string
   }
+  channels: {
+    [key: string]: {
+      name: string
+    }
+  }
 }
 
 export interface AuditElement {

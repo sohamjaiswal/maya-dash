@@ -7,13 +7,13 @@
   $: log_enabled = true
   $: welcome_enabled = true
   onMount(async() => {
-    const serverData = await data.lazy.serverData
-    log_enabled = serverData.settings.log_enabled
-    welcome_enabled = serverData.settings.welcome_channel_enabled
+    const serverSettings = await data.lazy.serverSettings
+    log_enabled = serverSettings.settings.log_enabled
+    welcome_enabled = serverSettings.settings.welcome_channel_enabled
   })
 </script>
 <div class="h-full w-full flex flex-col p-2">
-  {#await data.lazy.serverData}
+  {#await data.lazy.serverSettings}
   <p class="text-center">
     Loading...
   </p>
@@ -44,15 +44,30 @@
       <div class={`card p-6 flex flex-col gap-4 ${log_enabled ? 'block' : 'hidden'}`}>
         <label for="log_actions_channel">
           Log Actions Channel
-          <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} placeholder="abcde" />
+          <!-- <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} placeholder="abcde" /> -->
+          <select class="select" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} size="4">
+            {#each Object.keys(serverData.channels) as channelId}
+              <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
+            {/each}
+          </select>
         </label>
         <label for="log_events_channel">
           Log Events Channel
-          <input class="input" type="text" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} placeholder="abcde" />
+          <!-- <input class="input" type="text" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} placeholder="abcde" /> -->
+          <select class="select" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} size="4">
+            {#each Object.keys(serverData.channels) as channelId}
+              <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
+            {/each}
+          </select>
         </label>
         <label for="log_traffic_channel">
           Log Traffic Channel
-          <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel} placeholder="abcde" />
+          <!-- <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel} placeholder="abcde" /> -->
+          <select class="select" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel}  size="4">
+            {#each Object.keys(serverData.channels) as channelId}
+              <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
+            {/each}
+          </select>
         </label>
       </div>
       <label for="welcome_channel_enabled" class="flex items-center gap-4">
@@ -62,7 +77,12 @@
       <div class={`card p-6 flex flex-col gap-4 ${welcome_enabled ? 'block' : 'hidden'}`}>
         <label for="welcome_channel">
           Welcome Channel
-          <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" />
+          <!-- <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" /> -->
+          <select class="select" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} size="4">
+            {#each Object.keys(serverData.channels) as channelId}
+              <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
+            {/each}
+          </select>
         </label>
         <label for="welcome_message">
           Welcome Message

@@ -1,5 +1,5 @@
 import type { ServerSettings } from "$lib/types/maya"
-import { redirect } from "@sveltejs/kit"
+import { fail, redirect } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
   if (!locals.user) {
@@ -64,16 +64,8 @@ export const actions = {
       })
     })
     if (updateSettings.ok) {
-      const toast = {
-        success: "Advertisment Settings updated successfully",
-      }
-      const urlsearchparams = new URLSearchParams(toast)
-      throw redirect (302, `/dashboard/${params.serverId}/advertise?${urlsearchparams.toString()}`)
+      return {success: true, tags: bump_tags, bump_enabled: bump_enabled}
     }
-    const toast = {
-      error: "Failed to update Advertisment Settings",
-    }
-    const urlsearchparams = new URLSearchParams(toast)
-    throw redirect (302, `/dashboard/${params.serverId}/advertise?${urlsearchparams.toString()}`)
+    return fail(400, {error: true, message: "Something went wrong"})
   }
 }

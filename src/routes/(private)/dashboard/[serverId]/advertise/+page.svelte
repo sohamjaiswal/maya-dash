@@ -1,22 +1,46 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ServerSettings } from '$lib/types/maya.js';
-	import { InputChip, SlideToggle } from '@skeletonlabs/skeleton';
+	import { SlideToggle, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
+  
+  const toastStore = getToastStore()
+  
   export let data
+  export let form
   let tagsList: string[] = [] 
   $: tagsList
   let serverSettings: ServerSettings | null = null
   $: serverSettings
 
   let thisServerTags: string[] = []
-  $: adsEnabled = true
+  $: adsEnabled = form?.bump_enabled ?? true
   $: thisServerTags
+  let handleSubmit: SubmitFunction 
   onMount(async() => {
     serverSettings = await data.lazy.serverSettings
     tagsList = await data.lazy.tagsList
     adsEnabled = serverSettings.dashboard_data.bump_enabled
     thisServerTags = serverSettings.dashboard_data.bump_tags
+    handleSubmit = ({formElement, formData, action, cancel}) => {
+      const tags = formData.getAll('bump_tags')
+      if (tags.length > 5) {
+        const t: ToastSettings = {
+          message: "You can only select up to 5 tags",
+          background: "variant-filled-error",
+        }
+        toastStore.trigger(t)
+        cancel()
+      }
+    }
+    if (form?.success) {
+      const t: ToastSettings = {
+        message: "Updated successfully",
+        background: "variant-filled-success",
+      }
+      toastStore.trigger(t)
+    }
   })
 </script>
 
@@ -26,26 +50,24 @@
 {:then tagsList} 
   {#await data.lazy.serverSettings}
     Getting server settings...
-  {:then serverSettings} 
-    <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" use:enhance>
+  {:then} 
+    <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" on:submit|preventDefault use:enhance={handleSubmit}>
       <label for="tags" class="flex items-center gap-4">
         Enable Advertisements
         <SlideToggle name="bump_enabled" id="bump_enabled" bind:checked={adsEnabled} />
       </label>
       <div class={`card p-6 flex flex-col gap-4 ${adsEnabled ? 'block' : 'hidden'}`}>
         <!-- list all tags in badges -->
-        <div class="flex flex-wrap gap-4">
-          <h2>Available Tags</h2>
-          <div class="flex flex-wrap gap-2">
+        <div class="flex flex-col flex-wrap gap-4">
+          <h2>Tags</h2>
+          <div class="flex gap-2 flex-wrap">
             {#each tagsList as tag}
-              <div class="badge variant-filled">
-                {tag}
-              </div>
+                <label for={`bump_tags_${tag}`} class="flex items-center space-x-2">
+                  <input class="checkbox" id={`bump_tags_${tag}`} name="bump_tags" type="checkbox" checked={form?.tags ? form?.tags.includes(tag) : thisServerTags.includes(tag)} value={tag} />
+                  <p>{tag}</p>
+                </label>
             {/each}
           </div>
-          <h2>Your Tags</h2>
-          <InputChip name="bump_tags" bind:value={thisServerTags} whitelist={tagsList} allowUpperCase />
-          <!-- submit button -->
         </div>
       </div>
       <button class="btn variant-filled-primary" type="submit">

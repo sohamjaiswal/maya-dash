@@ -86,9 +86,6 @@
                   <h6 class="h6">
                     {dev.name}
                   </h6>
-                  <!-- <p>
-                    {dev.bio}
-                  </p> -->
                 </div>
               </div>
             </a>

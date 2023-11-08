@@ -2,7 +2,7 @@ import type { ServerSettings } from "$lib/types/maya.js"
 import { fail, redirect } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
-  const getServerData = async () => {
+  const getServerSettings = async () => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
@@ -18,7 +18,7 @@ export const load = async ({params, locals}) => {
   }
   return {
     lazy: {
-      serverData: getServerData()
+      serverSettings: getServerSettings(),
     }
   }
 }
