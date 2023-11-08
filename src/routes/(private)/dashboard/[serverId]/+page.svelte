@@ -45,7 +45,7 @@
         <label for="log_actions_channel">
           Log Actions Channel
           <!-- <input class="input" type="text" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} placeholder="abcde" /> -->
-          <select class="select" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel} size="4">
+          <select class="select" id="log_actions_channel" name="log_actions_channel" value={form?.log_actions_channel ?? serverData.settings.log_actions_channel}>
             {#each Object.keys(serverData.channels) as channelId}
               <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
@@ -54,7 +54,7 @@
         <label for="log_events_channel">
           Log Events Channel
           <!-- <input class="input" type="text" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} placeholder="abcde" /> -->
-          <select class="select" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel} size="4">
+          <select class="select" id="log_events_channel" name="log_events_channel" value={form?.log_events_channel ?? serverData.settings.log_events_channel}>
             {#each Object.keys(serverData.channels) as channelId}
               <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
@@ -63,7 +63,7 @@
         <label for="log_traffic_channel">
           Log Traffic Channel
           <!-- <input class="input" type="text" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel} placeholder="abcde" /> -->
-          <select class="select" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel}  size="4">
+          <select class="select" id="log_traffic_channel" name="log_traffic_channel" value={form?.log_traffic_channel ?? serverData.settings.log_traffic_channel}>
             {#each Object.keys(serverData.channels) as channelId}
               <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
@@ -78,7 +78,7 @@
         <label for="welcome_channel">
           Welcome Channel
           <!-- <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" /> -->
-          <select class="select" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} size="4">
+          <select class="select" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel}>
             {#each Object.keys(serverData.channels) as channelId}
               <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
