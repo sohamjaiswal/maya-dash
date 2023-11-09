@@ -76,7 +76,7 @@
 						{member.id}
 						<form action="?/kick" method="post" use:enhance={() => {
 							return ({result}) => {
-								if (result.status === 200) {
+								if (result.data.success) {
 									console.log(result)
 									if (result.data && result.data.memberId) {
 										removeMember(result.data.memberId);
@@ -100,7 +100,7 @@
 						</form>
 						<form action="?/ban" method="post" use:enhance={() => {
 							return ({result}) => {
-								if (result.status === 200) {
+								if (result.data.success) {
 									console.log(result)
 									if (result.data && result.data.memberId) {
 										removeMember(result.data.memberId);

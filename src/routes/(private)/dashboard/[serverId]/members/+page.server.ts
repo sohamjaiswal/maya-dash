@@ -48,7 +48,7 @@ export const actions = {
       await sirBansABitch.json()
       return {success: true, memberId: user_id}
     }
-    throw error(405, "Could not ban user.")
+    return {success: false}
   },
   kick: async ({params, locals, request}) => {
     if (!locals.user) {
@@ -71,6 +71,6 @@ export const actions = {
       await sirKicksABitch.json()
       return {success: true, memberId: user_id}
     }
-    throw error(405, "Could not kick user.")
+    return {success: false}
   }
 }
