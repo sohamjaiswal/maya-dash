@@ -17,7 +17,6 @@
   let thisServerTags: string[] = []
   $: adsEnabled = form?.bump_enabled ?? true
   $: thisServerTags
-  let handleSubmit: SubmitFunction 
   onMount(async() => {
     serverSettings = await data.lazy.serverSettings
     tagsList = await data.lazy.tagsList
