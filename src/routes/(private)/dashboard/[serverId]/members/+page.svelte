@@ -35,6 +35,7 @@
 			members = convertMembersRecordToMembersData(await data.lazy.memberData).filter((member) => member.name.toLowerCase().includes(searchUser.toLowerCase()));
 		}
 	};
+	let removeMember: (memberId: string) => void
 	onMount(async () => {
 		const memberData = await data.lazy.memberData;
 		members = convertMembersRecordToMembersData(memberData);
@@ -44,6 +45,14 @@
 			size: members.length,
 			amounts: [10, 25, 50, 100]
 		};
+		removeMember = (memberId: string) => {
+			console.log(members)
+			members = members.filter((m) => m.id !== memberId)
+			paginatedMembers = members.slice(
+				paginationSettings.page * paginationSettings.limit,
+				paginationSettings.page * paginationSettings.limit + paginationSettings.limit
+			);
+		}
 	});
 </script>
 
@@ -68,7 +77,10 @@
 						<form action="?/kick" method="post" use:enhance={() => {
 							return ({result}) => {
 								if (result.status === 200) {
-									membersData = membersData.filter((m) => m.id !== member.id);
+									console.log(result)
+									if (result.data && result.data.memberId) {
+										removeMember(result.data.memberId);
+									}
 									const t = {
 										message: "Kicked successfully",
 										background: "variant-filled-success",
@@ -89,7 +101,10 @@
 						<form action="?/ban" method="post" use:enhance={() => {
 							return ({result}) => {
 								if (result.status === 200) {
-									membersData = membersData.filter((m) => m.id !== member.id);
+									console.log(result)
+									if (result.data && result.data.memberId) {
+										removeMember(result.data.memberId);
+									}
 									const t = {
 										message: "Kicked successfully",
 										background: "variant-filled-success",

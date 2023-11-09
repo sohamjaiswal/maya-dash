@@ -46,7 +46,7 @@ export const actions = {
     })
     if (sirBansABitch.ok) {
       await sirBansABitch.json()
-      return {success: true}
+      return {success: true, memberId: user_id}
     }
     throw error(405, "Could not ban user.")
   },
@@ -69,7 +69,7 @@ export const actions = {
     })
     if (sirKicksABitch.ok) {
       await sirKicksABitch.json()
-      return {success: true}
+      return {success: true, memberId: user_id}
     }
     throw error(405, "Could not kick user.")
   }
