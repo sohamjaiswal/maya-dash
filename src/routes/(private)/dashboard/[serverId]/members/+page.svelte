@@ -62,7 +62,6 @@
 	});
 	const handleMemberSubmit: SubmitFunction = ({ formData }) => {
 		return async ({ result }) => {
-			console.log('enhanced res');
 			if (result.type === 'success') {
 				removeMember(formData.get('id') as string);
 				const t = {
