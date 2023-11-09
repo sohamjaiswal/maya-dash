@@ -5,7 +5,6 @@ export const load = async ({params, locals}) => {
   if (!locals.user) {
     throw redirect(302, '/login')
   }
-  console.log('ran')
   const getServerSettings = async () => {
     if (!locals.user) {
       throw redirect(302, '/login')
