@@ -9,15 +9,22 @@
 				No catchphrases, <br /> let's get right into it.
 			</h1>
 		</div>
-		<div class="flex w-full gap-2 flex-wrap pb-40 justify-around">
-			<a href="/dashboard">
+		<div class="flex flex-col items-center gap-4 pb-40">
+			<div class="flex w-full gap-2 flex-wrap justify-around">
+				<a href="/dashboard">
+					<button class="btn variant-filled-secondary">
+							Dashboard
+					</button>
+				</a>
+				<a href="/servers">
+					<button class="btn variant-filled-tertiary">
+							Servers
+					</button>
+				</a>
+			</div>
+			<a href="https://www.guilded.gg/b/bae67135-8e50-4b11-b7e9-d3e8da26f4ec" target="_blank" rel="noopener noreferrer">
 				<button class="btn variant-filled-primary">
-						Dashboard
-				</button>
-			</a>
-			<a href="/servers">
-				<button class="btn variant-filled-secondary">
-						Servers
+					Invite Maya!
 				</button>
 			</a>
 		</div>
