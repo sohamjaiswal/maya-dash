@@ -42,8 +42,8 @@
       <label for="log_enabled" class="flex items-center gap-4">
         Enable Logs
         <!-- <SlideToggle name="log_enabled" id="log_enabled" checked={serverData.settings.log_enabled} on:load={() => log_enabled = serverData.settings.log_enabled} on:change={() => log_enabled = !log_enabled} /> -->
-          <!-- <SlideToggle name="log_enabled" id="log_enabled" bind:checked={log_enabled} /> -->
-          <input type="checkbox" name="log_enabled" id="log_enabled" bind:checked={log_enabled}>
+          <SlideToggle name="log_enabled" id="log_enabled" bind:checked={log_enabled} />
+          <!-- <input type="checkbox" name="log_enabled" id="log_enabled" bind:checked={log_enabled}> -->
         </label>
       <div class={`card p-6 flex flex-col gap-4 ${log_enabled ? 'block' : 'hidden'}`}>
         <label for="log_actions_channel">
@@ -76,8 +76,8 @@
       </div>
       <label for="welcome_channel_enabled" class="flex items-center gap-4">
         Enable Welcome Channel
-        <!-- <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled} /> -->
-        <input type="checkbox" id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled}>
+        <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled} />
+        <!-- <input type="checkbox" id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled}> -->
       </label>
       <div class={`card p-6 flex flex-col gap-4 ${welcome_enabled ? 'block' : 'hidden'}`}>
         <label for="welcome_channel">
