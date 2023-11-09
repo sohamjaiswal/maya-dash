@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import type { ServerSettings } from "$lib/types/maya.js";
-	import { SlideToggle } from "@skeletonlabs/skeleton";
+	import { SlideToggle, getToastStore } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
+  const toastStore = getToastStore()
   export let data
   export let form
   let serverSettings: ServerSettings
@@ -31,7 +32,18 @@
     {form.message}
   </p>
   {/if}
-    <form action="?/updateServerSettings" method="post" class="flex flex-col gap-4" use:enhance>
+    <form action="?/updateServerSettings" method="post" class="flex flex-col gap-4" use:enhance={() => {
+      return ({result}) => {
+        if (result.status === 200) {
+          // make settings updated toast
+          const t = {
+            message: "Updated successfully",
+            background: "variant-filled-success",
+          }
+          toastStore.trigger(t)
+        }
+      }
+    }}>
       <h1 class="h1 mb-6">
         🏠 General Settings
       </h1>

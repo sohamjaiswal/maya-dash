@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { MembersData, MembersRecord } from '$lib/types/maya.js';
-	import { Avatar, Paginator, type PaginationSettings } from '@skeletonlabs/skeleton';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import { Avatar, Paginator, type PaginationSettings, getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	const toastStore = getToastStore();
 	export let data;
 	let membersData: MembersData = [];
 	$: searchUser = ""
@@ -65,11 +65,45 @@
 					</div>
 					<div class="flex gap-4 items-center">
 						{member.id}
-						<form action="?/kick" method="post" use:enhance>
+						<form action="?/kick" method="post" use:enhance={() => {
+							return ({result}) => {
+								if (result.status === 200) {
+									membersData = membersData.filter((m) => m.id !== member.id);
+									const t = {
+										message: "Kicked successfully",
+										background: "variant-filled-success",
+									};
+									toastStore.trigger(t);
+								} else {
+									const t = {
+										message: "Could not kick user",
+										background: "variant-filled-error",
+									};
+									toastStore.trigger(t);
+								}
+							};
+						}}>
 							<input type="hidden" name="id" value={member.id} />
 							<button type="submit" class="btn btn-primary variant-outline-error">Kick</button>
 						</form>
-						<form action="?/ban" method="post" use:enhance>
+						<form action="?/ban" method="post" use:enhance={() => {
+							return ({result}) => {
+								if (result.status === 200) {
+									membersData = membersData.filter((m) => m.id !== member.id);
+									const t = {
+										message: "Kicked successfully",
+										background: "variant-filled-success",
+									};
+									toastStore.trigger(t);
+								} else {
+									const t = {
+										message: "Could not ban user",
+										background: "variant-filled-error",
+									};
+									toastStore.trigger(t);
+								}
+							};
+						}}>
 							<input type="hidden" name="id" value={member.id} />
 							<button type="submit" class="btn btn-primary variant-filled-error">Ban</button>
 						</form>

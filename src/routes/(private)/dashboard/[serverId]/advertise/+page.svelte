@@ -23,24 +23,6 @@
     tagsList = await data.lazy.tagsList
     adsEnabled = serverSettings.dashboard_data.bump_enabled
     thisServerTags = serverSettings.dashboard_data.bump_tags
-    handleSubmit = ({formElement, formData, action, cancel}) => {
-      const tags = formData.getAll('bump_tags')
-      if (tags.length > 5) {
-        const t: ToastSettings = {
-          message: "You can only select up to 5 tags",
-          background: "variant-filled-error",
-        }
-        toastStore.trigger(t)
-        cancel()
-      }
-    }
-    if (form?.success) {
-      const t: ToastSettings = {
-        message: "Updated successfully",
-        background: "variant-filled-success",
-      }
-      toastStore.trigger(t)
-    }
   })
 </script>
 
@@ -51,7 +33,18 @@
   {#await data.lazy.serverSettings}
     Getting server settings...
   {:then} 
-    <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" on:submit|preventDefault use:enhance={handleSubmit}>
+    <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" on:submit|preventDefault use:enhance={() => {
+      return ({result}) => {
+        if (result.status === 200) {
+          // make settings updated toast
+          const t = {
+            message: "Updated successfully",
+            background: "variant-filled-success",
+          }
+          toastStore.trigger(t)
+        }
+      }
+    }}>
       <label for="tags" class="flex items-center gap-4">
         Enable Advertisements
         <SlideToggle name="bump_enabled" id="bump_enabled" bind:checked={adsEnabled} />

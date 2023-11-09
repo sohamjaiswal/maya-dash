@@ -6,7 +6,7 @@ export const load = async ({params, locals}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
-    
+
     const membersData = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/members`, {
       method: 'GET',
       headers: {
@@ -46,17 +46,9 @@ export const actions = {
     })
     if (sirBansABitch.ok) {
       await sirBansABitch.json()
-      const toast = {
-        success: "User banned successfully",
-      }
-      const urlsearchparams = new URLSearchParams(toast)
-      throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
+      return {success: true}
     }
-    const toast = {
-      error: "Failed to ban user",
-    }
-    const urlsearchparams = new URLSearchParams(toast)
-    throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
+    throw error(405, "Could not ban user.")
   },
   kick: async ({params, locals, request}) => {
     if (!locals.user) {
@@ -64,7 +56,7 @@ export const actions = {
     }
     const data = await request.formData()
     const user_id = data.get('id')
-    const sirKicksABitch = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/ban`, {
+    const sirKicksABitch = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/kick`, {
       method: 'POST',
       headers: {
         UserID: locals.user.id,
@@ -77,16 +69,8 @@ export const actions = {
     })
     if (sirKicksABitch.ok) {
       await sirKicksABitch.json()
-      const toast = {
-        success: "User kicked successfully",
-      }
-      const urlsearchparams = new URLSearchParams(toast)
-      throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
+      return {success: true}
     }
-    const toast = {
-      error: "Failed to ban user",
-    }
-    const urlsearchparams = new URLSearchParams(toast)
-    throw redirect (302, `/dashboard/${params.serverId}/members?${urlsearchparams.toString()}`)
+    throw error(405, "Could not kick user.")
   }
 }
