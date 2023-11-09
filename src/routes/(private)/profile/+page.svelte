@@ -34,9 +34,9 @@
       Loading...
     </p>
     {:then servers}
-    <div class="flex w-full justify-center gap-4 mt-10">
+    <div class="flex flex-wrap w-full justify-center gap-4 mt-10">
       {#each servers as server}
-      <a href={`https://guilded.gg/i/${server.id}`} class="w-full">
+      <a href={`/dashboard/${server.id}`}>
         <div class="card bg-initial w-72 h-80 overflow-hidden">
           <header class="card-header relative">
             <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-cover bg-center" />

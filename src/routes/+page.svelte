@@ -9,7 +9,7 @@
 				No catchphrases, <br /> let's get right into it.
 			</h1>
 		</div>
-		<div class="flex w-full gap-2 flex-wrap justify-around">
+		<div class="flex w-full gap-2 flex-wrap pb-40 justify-around">
 			<a href="/dashboard">
 				<button class="btn variant-filled-primary">
 						Dashboard

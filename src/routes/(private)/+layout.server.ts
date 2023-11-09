@@ -5,11 +5,38 @@ export const load = async({locals}) => {
   if (!locals.user) {
     throw redirect(302, '/login')
   }
-  const findStaffedServers = async (selfId: string) => {
-    const serversRes = (await (await fetch(`https://api.mayabot.xyz/servers`)).json()).data.servers_list as ServersRecord
-    const servers: PropahServa[] = Object.keys(serversRes).map((id) => ({
+  // const findStaffedServers = async (selfId: string) => {
+  //   const serversRes = (await (await fetch(`https://api.mayabot.xyz/servers`)).json()).data.servers_list as ServersRecord
+    // const servers: PropahServa[] = Object.keys(serversRes).map((id) => ({
+    //   id,
+    //   ...serversRes[id],
+    // }));
+    // try {
+    //   const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
+    //     const staffListData = await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()
+    //     const staffList = staffListData.data.staff_members as UsersRecord;
+    //     const doesModServer = Object.keys(staffList).includes(selfId)
+    //     return doesModServer;
+    //   })
+    //   return selfStaffedServers;
+    // } catch {
+    //   throw error(500, 'Internal Server Error')
+    // }
+  // }
+  const getStaffedServers = async (selfId: string) => {
+    if (!locals.user) {
+      throw redirect(302, '/login')
+    }
+    const staffedRes = (await (await fetch(`https://api.mayabot.xyz/serverlist`, {
+      method: 'GET',
+      headers: {
+        UserID: selfId,
+        Token: locals.user.mayaToken
+      }
+    })).json()).data as ServersRecord
+    const servers: PropahServa[] = Object.keys(staffedRes).map((id) => ({
       id,
-      ...serversRes[id],
+      ...staffedRes[id],
     }));
     try {
       const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
@@ -23,5 +50,5 @@ export const load = async({locals}) => {
       throw error(500, 'Internal Server Error')
     }
   }
-  return {lazy: {moderatingServers: findStaffedServers(locals.user.id)}}
+  return {lazy: {moderatingServers: getStaffedServers(locals.user.id)}}
 }
