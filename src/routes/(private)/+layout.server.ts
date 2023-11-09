@@ -34,12 +34,10 @@ export const load = async({locals}) => {
         Token: locals.user.mayaToken
       }
     })).json()).data as ServersRecord
-    console.log(staffedRes)
     const servers: PropahServa[] = Object.keys(staffedRes).map((id) => ({
       id,
       ...staffedRes[id],
     }));
-    console.log(servers)
     return servers
   }
   return {lazy: {moderatingServers: getStaffedServers(locals.user.id)}}
