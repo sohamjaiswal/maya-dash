@@ -12,16 +12,12 @@
 		<div class="flex w-full gap-2 flex-wrap justify-around">
 			<a href="/dashboard">
 				<button class="btn variant-filled-primary">
-					<h2 class="h2">
 						Dashboard
-					</h2>
 				</button>
 			</a>
 			<a href="/servers">
 				<button class="btn variant-filled-secondary">
-					<h2 class="h2">
 						Servers
-					</h2>
 				</button>
 			</a>
 		</div>

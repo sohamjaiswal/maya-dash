@@ -21,7 +21,7 @@
         Loading...
       </p>
       {:then servers}
-      <div class="flex w-full justify-center gap-4 mt-10">
+      <div class="flex flex-col w-full justify-center gap-4 mt-10">
         {#each servers as server}
         <div class="flex flex-col gap-4">
           <a href={`/dashboard/${server.id}`} class={`w-full p-2 rounded-lg ${classesActive(`/dashboard/${server.id}`)}`}>
