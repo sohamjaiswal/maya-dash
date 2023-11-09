@@ -13,7 +13,8 @@ export const load = async({locals}) => {
     }));
     try {
       const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
-        const staffList = (await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()).data.staff_members as UsersRecord;
+        const staffListData = await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()
+        const staffList = staffListData.data.staff_members as UsersRecord;
         const doesModServer = Object.keys(staffList).includes(selfId)
         return doesModServer;
       })

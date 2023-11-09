@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { MembersData, MembersRecord } from '$lib/types/maya.js';
 	import { Avatar, Paginator, type PaginationSettings } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 	export let data;
 	let membersData: MembersData = [];
@@ -63,11 +65,11 @@
 					</div>
 					<div class="flex gap-4 items-center">
 						{member.id}
-						<form action="?/kick" method="post">
+						<form action="?/kick" method="post" use:enhance>
 							<input type="hidden" name="id" value={member.id} />
 							<button type="submit" class="btn btn-primary variant-outline-error">Kick</button>
 						</form>
-						<form action="?/ban" method="post">
+						<form action="?/ban" method="post" use:enhance>
 							<input type="hidden" name="id" value={member.id} />
 							<button type="submit" class="btn btn-primary variant-filled-error">Ban</button>
 						</form>

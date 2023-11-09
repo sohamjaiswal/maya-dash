@@ -36,7 +36,7 @@
           </a>
           <div class={`flex flex-col gap-2 ml-10 ${tabsActive(`/dashboard/${server.id}`)}`}>
             <a href={`/dashboard/${server.id}`}>
-              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}`)} `}>
+              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/general`)} `}>
                 🏠 General
               </div>
             </a>
@@ -68,7 +68,9 @@
   </svelte:fragment>
   <div class="flex flex-col  w-full items-center">
     <div class="container w-full">
-      <slot />
+      {#key $page.params.serverId}
+        <slot />
+      {/key}
     </div>
   </div>
 </AppShell>

@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import type { ServerSettings } from "$lib/types/maya.js";
 	import { SlideToggle } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
   export let data
   export let form
-  $: log_enabled = true
-  $: welcome_enabled = true
+  let serverSettings: ServerSettings
+  $: serverSettings
+  $: log_enabled = form?.log_enabled ? form?.log_enabled == "on" : false
+  $: welcome_enabled = form?.welcome_channel_enabled ? form?.welcome_channel_enabled == "on" : false
   onMount(async() => {
-    const serverSettings = await data.lazy.serverSettings
+    serverSettings = await data.lazy.serverSettings
     log_enabled = serverSettings.settings.log_enabled
     welcome_enabled = serverSettings.settings.welcome_channel_enabled
   })
@@ -39,8 +42,9 @@
       <label for="log_enabled" class="flex items-center gap-4">
         Enable Logs
         <!-- <SlideToggle name="log_enabled" id="log_enabled" checked={serverData.settings.log_enabled} on:load={() => log_enabled = serverData.settings.log_enabled} on:change={() => log_enabled = !log_enabled} /> -->
-          <SlideToggle name="log_enabled" id="log_enabled" bind:checked={log_enabled} />
-      </label>
+          <!-- <SlideToggle name="log_enabled" id="log_enabled" bind:checked={log_enabled} /> -->
+          <input type="checkbox" name="log_enabled" id="log_enabled" bind:checked={log_enabled}>
+        </label>
       <div class={`card p-6 flex flex-col gap-4 ${log_enabled ? 'block' : 'hidden'}`}>
         <label for="log_actions_channel">
           Log Actions Channel
@@ -72,7 +76,8 @@
       </div>
       <label for="welcome_channel_enabled" class="flex items-center gap-4">
         Enable Welcome Channel
-        <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled} />
+        <!-- <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled} /> -->
+        <input type="checkbox" id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_enabled}>
       </label>
       <div class={`card p-6 flex flex-col gap-4 ${welcome_enabled ? 'block' : 'hidden'}`}>
         <label for="welcome_channel">

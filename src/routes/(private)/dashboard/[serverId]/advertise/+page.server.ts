@@ -1,5 +1,5 @@
 import type { ServerSettings } from "$lib/types/maya"
-import { fail, redirect } from "@sveltejs/kit"
+import { error, fail, redirect } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
   if (!locals.user) {
@@ -25,15 +25,19 @@ export const load = async ({params, locals}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
+    try {
+      const serverSettingsRes = (await (await fetch(`https://api.mayabot.xyz/server/${params.serverId}/settings`, {
+        method: 'GET',
+        headers: {
+          UserID: locals.user.id,
+          Token: locals.user.mayaToken
+        }
+      })).json()).data
+      return serverSettingsRes as ServerSettings
+    } catch (e) {
+      throw error(405, "You are not allowed to view this content.")
+    }
     // get server details using serverid and mayatoken and userid 
-    const serverSettingsRes = (await (await fetch(`https://api.mayabot.xyz/server/${params.serverId}/settings`, {
-      method: 'GET',
-      headers: {
-        UserID: locals.user.id,
-        Token: locals.user.mayaToken
-      }
-    })).json()).data
-    return serverSettingsRes as ServerSettings
   }
   return {
     lazy: {

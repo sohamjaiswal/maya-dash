@@ -6,6 +6,7 @@ export const load = async ({params, locals}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
+    
     const membersData = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/members`, {
       method: 'GET',
       headers: {
