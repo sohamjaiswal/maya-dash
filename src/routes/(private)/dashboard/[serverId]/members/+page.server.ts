@@ -1,5 +1,5 @@
 import type { MembersRecord } from "$lib/types/maya"
-import { error, redirect } from "@sveltejs/kit"
+import { error, redirect, fail } from "@sveltejs/kit"
 
 export const load = async ({params, locals}) => {
   const getMembersData = async () => {
@@ -48,7 +48,7 @@ export const actions = {
       await sirBansABitch.json()
       return {success: true, memberId: user_id}
     }
-    return {success: false}
+    fail(400, {message: 'Could not ban user'})
   },
   kick: async ({params, locals, request}) => {
     if (!locals.user) {
@@ -71,6 +71,6 @@ export const actions = {
       await sirKicksABitch.json()
       return {success: true, memberId: user_id}
     }
-    return {success: false}
+    fail(400, {message: 'Could not kick user'})
   }
 }

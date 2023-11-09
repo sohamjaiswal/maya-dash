@@ -34,21 +34,13 @@ export const load = async({locals}) => {
         Token: locals.user.mayaToken
       }
     })).json()).data as ServersRecord
+    console.log(staffedRes)
     const servers: PropahServa[] = Object.keys(staffedRes).map((id) => ({
       id,
       ...staffedRes[id],
     }));
-    try {
-      const selfStaffedServers: PropahServa[] = servers.filter(async(server) => {
-        const staffListData = await (await fetch(`https://api.mayabot.xyz/server/${server.id}/staff`)).json()
-        const staffList = staffListData.data.staff_members as UsersRecord;
-        const doesModServer = Object.keys(staffList).includes(selfId)
-        return doesModServer;
-      })
-      return selfStaffedServers;
-    } catch {
-      throw error(500, 'Internal Server Error')
-    }
+    console.log(servers)
+    return servers
   }
   return {lazy: {moderatingServers: getStaffedServers(locals.user.id)}}
 }

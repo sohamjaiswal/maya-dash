@@ -76,23 +76,24 @@
 						{member.id}
 						<form action="?/kick" method="post" use:enhance={() => {
 							return ({result}) => {
-								if (result.data.success) {
-									console.log(result)
-									if (result.data && result.data.memberId) {
-										removeMember(result.data.memberId);
-									}
-									const t = {
-										message: "Kicked successfully",
-										background: "variant-filled-success",
-									};
-									toastStore.trigger(t);
-								} else {
-									const t = {
-										message: "Could not kick user",
-										background: "variant-filled-error",
-									};
-									toastStore.trigger(t);
-								}
+								console.log(result.type)
+								// if (result.type === "success") {
+								// 	console.log(result)
+								// 	if (result.data?.memberId === "string") {
+								// 		removeMember(result.data.memberId);
+								// 	}
+								// 	const t = {
+								// 		message: "Kicked successfully",
+								// 		background: "variant-filled-success",
+								// 	};
+								// 	toastStore.trigger(t);
+								// } else {
+								// 	const t = {
+								// 		message: "Could not kick user",
+								// 		background: "variant-filled-error",
+								// 	};
+								// 	toastStore.trigger(t);
+								// }
 							};
 						}}>
 							<input type="hidden" name="id" value={member.id} />
@@ -100,23 +101,24 @@
 						</form>
 						<form action="?/ban" method="post" use:enhance={() => {
 							return ({result}) => {
-								if (result.data.success) {
-									console.log(result)
-									if (result.data && result.data.memberId) {
-										removeMember(result.data.memberId);
-									}
-									const t = {
-										message: "Banned successfully",
-										background: "variant-filled-success",
-									};
-									toastStore.trigger(t);
-								} else {
-									const t = {
-										message: "Could not ban user",
-										background: "variant-filled-error",
-									};
-									toastStore.trigger(t);
-								}
+								console.log(result.type)
+								// if (result.type === "success") {
+								// 	console.log(result)
+								// 	if (typeof result.data?.memberId === "string") {
+								// 		removeMember(result.data.memberId);
+								// 	}
+								// 	const t = {
+								// 		message: "Banned successfully",
+								// 		background: "variant-filled-success",
+								// 	};
+								// 	toastStore.trigger(t);
+								// } else {
+								// 	const t = {
+								// 		message: "Could not ban user",
+								// 		background: "variant-filled-error",
+								// 	};
+								// 	toastStore.trigger(t);
+								// }
 							};
 						}}>
 							<input type="hidden" name="id" value={member.id} />
