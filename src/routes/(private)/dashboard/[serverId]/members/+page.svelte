@@ -106,7 +106,7 @@
 										removeMember(result.data.memberId);
 									}
 									const t = {
-										message: "Kicked successfully",
+										message: "Banned successfully",
 										background: "variant-filled-success",
 									};
 									toastStore.trigger(t);
