@@ -16,7 +16,7 @@
 							Dashboard
 					</button>
 				</a>
-				<a href="/servers">
+				<a href="/servers/1">
 					<button class="btn variant-filled-tertiary">
 							Servers
 					</button>

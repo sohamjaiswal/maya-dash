@@ -20,13 +20,12 @@
   $: getServers(filter_type, pageNumber)
   onMount(() => {
     getServers = async (filter_type, pageNumber) => {
-    const servers = (await (await fetch(`/servers/bumped/${pageNumber}`, {
+    const servers = (await (await fetch(`/servers/${pageNumber}`, {
       method: 'POST',
       body: JSON.stringify({
         filter_type
       })
     })).json())
-    console.log(servers)
     useServers = servers
   }
   })
