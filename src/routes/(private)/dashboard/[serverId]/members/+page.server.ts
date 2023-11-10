@@ -48,7 +48,8 @@ export const actions = {
       await sirBansABitch.json()
       return {success: true}
     }
-    return fail(405, {message: "Could not ban user."})
+    const {code, message} = await sirBansABitch.json() as {code: number, message: string}
+    return fail(code, {message})
   },
   kick: async ({params, locals, request}) => {
     if (!locals.user) {
@@ -71,6 +72,7 @@ export const actions = {
       await sirKicksABitch.json()
       return {success: true}
     }
-    return fail(405, {message: "Could not kick user."})
+    const {code, message} = await sirKicksABitch.json() as {code: number, message: string}
+    return fail(code, {message})
   }
 }

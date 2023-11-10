@@ -64,7 +64,8 @@ export const actions = {
       await updateServerSettingsRes.json()
       return {success: true}
     }
-    return fail(400, {
+    const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
+    return fail(code, {
       prefix,
       log_enabled,
       welcome_channel_enabled,
@@ -73,7 +74,7 @@ export const actions = {
       log_traffic_channel,
       welcome_channel,
       welcome_message,
-      message: "Settings failed to update!"
+      message:message
     })
   }
 }

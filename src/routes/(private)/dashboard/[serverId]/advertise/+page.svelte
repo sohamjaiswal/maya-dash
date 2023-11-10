@@ -34,11 +34,18 @@
   {:then} 
     <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" on:submit|preventDefault use:enhance={() => {
       return ({result}) => {
-        if (result.status === 200) {
+        if (result.type === "success") {
           // make settings updated toast
           const t = {
             message: "Updated successfully",
             background: "variant-filled-success",
+          }
+          toastStore.trigger(t)
+        } else if (result.type === "failure") {
+          // make settings updated toast
+          const t = {
+            message: result.data?.message,
+            background: "variant-filled-error",
           }
           toastStore.trigger(t)
         }

@@ -69,9 +69,9 @@
 					background: 'variant-filled-success'
 				};
 				toastStore.trigger(t);
-			} else {
+			} else if (result.type === 'failure') {
 				const t = {
-					message: 'Failed to kick',
+					message: result.data?.message,
 					background: 'variant-filled-error'
 				};
 				toastStore.trigger(t);
