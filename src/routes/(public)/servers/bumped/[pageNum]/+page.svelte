@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
-	import type { PropahServa } from "$lib/types/maya";
 	import { Avatar, RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
   $: filter_type = 'time'
