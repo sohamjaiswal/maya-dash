@@ -14,13 +14,20 @@
 
 <div class="flex flex-col items-center">
   <div class="container">
-    <h1 class="h1">
-      Servers that use Maya!
-    </h1>
+    <div class="flex gap-4 items-center">
+      <h1 class="h1">
+        Servers that use Maya!
+      </h1>
+      <a href="/servers/bumped/1">
+        <button class="btn variant-filled-primary">
+          View bumped servers
+        </button>
+      </a>
+    </div>
     <!-- server card container -->
     <div class="flex flex-wrap justify-center gap-4 mt-10">
       {#each useServers as server}
-      <a href={`https://guilded.gg/i/${server.id}`}>
+      <a href={`${server.url}`}>
         <div class="card bg-initial w-72 h-80 overflow-hidden">
           <header class="card-header relative">
             <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-cover bg-center" />

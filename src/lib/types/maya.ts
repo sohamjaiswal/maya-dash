@@ -2,12 +2,14 @@ export interface LimitedServer {
   name: string
   avatar: string
   banner: string
+  url: string
 }
 export interface PropahServa {
   id: string
   name: string
   avatar: string
   banner: string
+  url: string
 }
 export type ServersRecord = {
   [key: string]: LimitedServer
