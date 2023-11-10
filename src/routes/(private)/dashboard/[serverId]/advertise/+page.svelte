@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ServerSettings } from '$lib/types/maya.js';
+	import Icon from '@iconify/svelte';
 	import { SlideToggle, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import { tooltip } from '@svelte-plugins/tooltips';
 	import { onMount } from 'svelte';
   
   const toastStore = getToastStore()
@@ -52,7 +53,12 @@
       }
     }}>
       <label for="tags" class="flex items-center gap-4">
-        Enable Advertisements
+        <div class="flex items-center gap-1">
+          Enable Advertisements
+          <div class="block" use:tooltip={{ content: '<b>Info!</b><p>Enabling advertisements grants access to users to bump your server, and advertise it.</p>', position: 'bottom', animation: 'slide', arrow: false }}>
+            <Icon icon="material-symbols:info" />
+          </div>
+        </div>
         <SlideToggle name="bump_enabled" id="bump_enabled" bind:checked={adsEnabled} />
       </label>
       <div class={`card p-6 flex flex-col gap-4 ${adsEnabled ? 'block' : 'hidden'}`}>
