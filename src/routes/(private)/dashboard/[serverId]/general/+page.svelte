@@ -1,7 +1,3 @@
-<script>
-	import { message } from "sveltekit-superforms/server";
-
-</script>
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import type { ServerSettings } from "$lib/types/maya";
