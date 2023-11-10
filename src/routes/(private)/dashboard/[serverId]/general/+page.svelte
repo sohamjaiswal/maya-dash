@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import type { ServerSettings } from "$lib/types/maya.js";
+	import type { ServerSettings } from "$lib/types/maya";
+	import Icon from "@iconify/svelte";
 	import { SlideToggle, getToastStore } from "@skeletonlabs/skeleton";
+  import { tooltip } from "@svelte-plugins/tooltips";
 	import { onMount } from "svelte";
   const toastStore = getToastStore()
   export let data
@@ -97,12 +99,17 @@
           <!-- <input class="input" type="text" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel} placeholder="abcde" /> -->
           <select class="select" id="welcome_channel" name="welcome_channel" value={form?.welcome_channel ?? serverData.settings.welcome_channel}>
             {#each Object.keys(serverData.channels) as channelId}
-              <option value={channelId}>{serverData.channels[`${channelId}`].name}</option>
+              <option  value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
           </select>
         </label>
         <label for="welcome_message">
-          Welcome Message
+          <div class="flex items-center gap-1">
+            Welcome Message
+            <div class="block" use:tooltip={{ content: '<b>Tip!</b><p>You can use {user}, {server}, {members} and markdown to add content and style your custom message!</p>', position: 'top', animation: 'slide', arrow: false }}>
+              <Icon icon="material-symbols:info" />
+            </div>
+          </div>
           <textarea class="input" id="welcome_message" name="welcome_message" placeholder="Welcome to the server!">{form?.welcome_message ?? serverData.settings.welcome_message}</textarea>
         </label>
       </div>
