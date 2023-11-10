@@ -65,7 +65,7 @@
 			if (result.type === 'success') {
 				removeMember(formData.get('id') as string);
 				const t = {
-					message: 'Kicked successfully',
+					message: result.data?.message,
 					background: 'variant-filled-success'
 				};
 				toastStore.trigger(t);

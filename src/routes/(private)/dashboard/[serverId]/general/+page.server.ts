@@ -61,8 +61,8 @@ export const actions = {
       })
     })
     if (updateServerSettingsRes.ok) {
-      await updateServerSettingsRes.json()
-      return {success: true}
+      const {message} = await updateServerSettingsRes.json()
+      return {success: true, message}
     }
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {

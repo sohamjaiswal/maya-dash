@@ -37,7 +37,7 @@
         if (result.type === "success") {
           // make settings updated toast
           const t = {
-            message: "Updated successfully",
+            message: result.data?.message,
             background: "variant-filled-success",
           }
           toastStore.trigger(t)

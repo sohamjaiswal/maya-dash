@@ -68,7 +68,8 @@ export const actions = {
       })
     })
     if (updateSettings.ok) {
-      return {success: true, tags: bump_tags, bump_enabled: bump_enabled}
+      const {message} = await updateSettings.json()
+      return {success: true, tags: bump_tags, bump_enabled: bump_enabled, message}
     }
     const {code, message} = await updateSettings.json() as {code: number, message: string}
     return fail(code, {message})

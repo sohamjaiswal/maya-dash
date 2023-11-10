@@ -45,8 +45,8 @@ export const actions = {
       })
     })
     if (sirBansABitch.ok) {
-      await sirBansABitch.json()
-      return {success: true}
+      const {message} = await sirBansABitch.json()
+      return {success: true, message}
     }
     const {code, message} = await sirBansABitch.json() as {code: number, message: string}
     return fail(code, {message})
@@ -69,8 +69,8 @@ export const actions = {
       })
     })
     if (sirKicksABitch.ok) {
-      await sirKicksABitch.json()
-      return {success: true}
+      const {message} = await sirKicksABitch.json()
+      return {success: true, message}
     }
     const {code, message} = await sirKicksABitch.json() as {code: number, message: string}
     return fail(code, {message})

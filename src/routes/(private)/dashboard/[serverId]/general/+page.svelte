@@ -1,3 +1,7 @@
+<script>
+	import { message } from "sveltekit-superforms/server";
+
+</script>
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import type { ServerSettings } from "$lib/types/maya";
@@ -39,7 +43,7 @@
         if (result.type === "success") {
           // make settings updated toast
           const t = {
-            message: "Updated successfully",
+            message: result.data?.message,
             background: "variant-filled-success",
           }
           toastStore.trigger(t)
