@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	const drawerStore = getDrawerStore();
 	const drawerSettings: DrawerSettings = {
+		position: 'right',
 		width: 'w-[280px] md:w-[480px]',
 		padding: 'p-4',
 		rounded: 'rounded-lg'

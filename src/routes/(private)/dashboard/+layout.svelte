@@ -1,18 +1,33 @@
 <script lang="ts">
 
 	import { page } from "$app/stores";
-	import { AppShell, Avatar } from "@skeletonlabs/skeleton";
+	import Icon from "@iconify/svelte";
+	import { AppShell, Avatar, getDrawerStore, type DrawerSettings } from "@skeletonlabs/skeleton";
 
   export let data
 
   $: classesActive = (href: string) => ($page.url.pathname.startsWith(href) ? '!bg-primary-500' : '');
   $: preciseClassesActive = (href: string) => ($page.url.pathname === href ? '!bg-primary-500' : '');
   $: tabsActive = (href: string) => ($page.url.pathname.startsWith(href) ? 'block' : 'hidden');
+  const drawerStore = getDrawerStore()
+  const drawerSettings: DrawerSettings = {
+    position: 'left',
+    width: 'w-[280px] md:w-[480px]',
+		padding: 'p-4',
+		rounded: 'rounded-lg',
+    meta: {
+      servers: data.lazy.moderatingServers
+    }
+  }
 </script>
 
 <AppShell>
   <svelte:fragment slot="sidebarLeft">
-    <div class="p-2 h-full overflow-y-auto">
+    <!-- fixed button that displays only on bottom right -->
+    <button class="btn-icon md:hidden w-12 h-12 variant-filled-primary fixed bottom-4 left-4" on:click={() => drawerStore.open(drawerSettings)}>
+      <Icon icon="bxs:server" class="w-8 h-8" />
+    </button>
+    <div class="p-2 h-full overflow-y-auto hidden md:block">
       <h2 class="h2">
         Your Servers
       </h2>
