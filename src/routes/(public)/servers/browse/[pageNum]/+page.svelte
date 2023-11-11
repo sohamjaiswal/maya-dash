@@ -13,6 +13,7 @@
     name: string;
     members: number;
     time: number;
+    time_display: string;
     upvotes: number;
     url: string;
   }
@@ -32,6 +33,7 @@
         filter_type
       })
     })).json())
+    console.log(servers)
     useServers = servers
   }
   getNextServers = async (filter_type, pageNumber) => {
@@ -85,7 +87,7 @@
     <div class="flex flex-wrap justify-center gap-4 mt-10">
       {#each useServers as server}
       <a href={`/servers/${server.id}`}>
-        <div class="card bg-initial w-72 h-96 overflow-hidden">
+        <div class="card bg-initial w-[22rem] h-96 overflow-hidden">
           <header class="card-header relative">
             <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-cover bg-center" />
           </header>
@@ -96,16 +98,31 @@
               </h6>
               <div class="flex gap-4 p-2">
                 <div class="flex gap-4">
-                  <p class="p">
-                    {server.members} members
-                  </p>
-                  <p class="p">
-                    {server.upvotes} upvotes
-                  </p>
+                  <div class="flex flex-col gap-1">
+                    <h6 class="h6">
+                      👥 Members
+                    </h6>
+                    <p class="p">
+                      {server.members}
+                    </p>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <h6 class="h6">
+                      ⬆️ Upvotes
+                    </h6>
+                    <p class="p">
+                      {server.upvotes}
+                    </p>
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <h6 class="h6">
+                      ⏰ Bumped
+                    </h6>
+                    <p class="p">
+                      {server.time_display}
+                    </p>
+                  </div>
                 </div>
-                <p class="p">
-                  {server.time} minutes ago
-                </p>
               </div>
             </div>
         </div>
