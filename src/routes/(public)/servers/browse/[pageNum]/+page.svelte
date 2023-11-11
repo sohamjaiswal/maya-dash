@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
-	import { Avatar, RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
+	import { Avatar, RadioGroup, RadioItem, getToastStore } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
+  const toastStore = getToastStore()
   $: filter_type = 'time'
   $: pageNumber = $page.params.pageNum
   type Server = {
@@ -34,14 +35,23 @@
     useServers = servers
   }
   getNextServers = async (filter_type, pageNumber) => {
-    const servers = (await (await fetch(`/servers/browse/${pageNumber+1}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        filter_type
-      })
-    })).json())
-    nextServers = servers
-  }
+      const pNum = parseInt(pageNumber)
+      if (isNaN(pNum)) {
+        nextServers = []
+        const t = {
+          message: "Bad page number (It's not even number!)",
+          background: "variant-filled-error",
+        }
+        toastStore.trigger(t)
+      }
+      const servers = (await (await fetch(`/servers/browse/${pNum+1}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          filter_type
+        })
+      })).json())
+      nextServers = servers
+    }
   })
 </script>
 <div class="flex flex-col items-center">
