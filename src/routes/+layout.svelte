@@ -1,6 +1,18 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { AppShell, Drawer, initializeStores, storePopup, getDrawerStore, Avatar, popup, LightSwitch, Toast, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import {
+		AppShell,
+		Drawer,
+		initializeStores,
+		storePopup,
+		getDrawerStore,
+		Avatar,
+		popup,
+		LightSwitch,
+		Toast,
+		getToastStore,
+		type ToastSettings
+	} from '@skeletonlabs/skeleton';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -13,13 +25,13 @@
 	import { storeTheme } from '$lib/stores/stores';
 	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
 
-		$: if (browser && analyticsId) {
-			webVitals({
-				path: $page.url.pathname,
-				params: $page.params,
-				analyticsId
-			})
-		}
+	$: if (browser && analyticsId) {
+		webVitals({
+			path: $page.url.pathname,
+			params: $page.params,
+			analyticsId
+		});
+	}
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { webVitals } from '$lib/utils/vitals';
@@ -34,21 +46,21 @@
 		}
 	};
 	const themes = [
-        { type: 'skeleton', name: 'Skeleton', icon: '💀' },
-        { type: 'wintry', name: 'Wintry', icon: '🌨️' },
-        { type: 'modern', name: 'Modern', icon: '🤖' },
-        { type: 'rocket', name: 'Rocket', icon: '🚀' },
-        { type: 'seafoam', name: 'Seafoam', icon: '🧜‍♀️' },
-        { type: 'vintage', name: 'Vintage', icon: '📺' },
-        { type: 'sahara', name: 'Sahara', icon: '🏜️' },
-        { type: 'hamlindigo', name: 'Hamlindigo', icon: '👔' },
-        { type: 'gold-nouveau', name: 'Gold Nouveau', icon: '💫' },
-        { type: 'crimson', name: 'Crimson', icon: '⭕' }
-        // { type: 'seasonal', name: 'Seasonal', icon: '🎆' }
-        // { type: 'test', name: 'Test', icon: '🚧' },
+		{ type: 'skeleton', name: 'Skeleton', icon: '💀' },
+		{ type: 'wintry', name: 'Wintry', icon: '🌨️' },
+		{ type: 'modern', name: 'Modern', icon: '🤖' },
+		{ type: 'rocket', name: 'Rocket', icon: '🚀' },
+		{ type: 'seafoam', name: 'Seafoam', icon: '🧜‍♀️' },
+		{ type: 'vintage', name: 'Vintage', icon: '📺' },
+		{ type: 'sahara', name: 'Sahara', icon: '🏜️' },
+		{ type: 'hamlindigo', name: 'Hamlindigo', icon: '👔' },
+		{ type: 'gold-nouveau', name: 'Gold Nouveau', icon: '💫' },
+		{ type: 'crimson', name: 'Crimson', icon: '⭕' }
+		// { type: 'seasonal', name: 'Seasonal', icon: '🎆' }
+		// { type: 'test', name: 'Test', icon: '🚧' },
 	];
-	const toastStore = getToastStore()
-	onMount(async() => {
+	const toastStore = getToastStore();
+	onMount(async () => {
 		// check for success query param, do success toast if exists
 		const urlParams = new URLSearchParams(window.location.search);
 		const success = urlParams.get('success');
@@ -59,29 +71,29 @@
 				message: success,
 				// Provide any utility or variant background style:
 				background: 'variant-filled-success',
-				timeout: 3000,
+				timeout: 3000
 			};
-			toastStore.trigger(t)
+			toastStore.trigger(t);
 		}
 		if (warning) {
 			const t: ToastSettings = {
 				message: warning,
 				// Provide any utility or variant background style:
 				background: 'variant-filled-warning',
-				timeout: 3000,
+				timeout: 3000
 			};
-			toastStore.trigger(t)
+			toastStore.trigger(t);
 		}
 		if (error) {
 			const t: ToastSettings = {
 				message: error,
 				// Provide any utility or variant background style:
 				background: 'variant-filled-error',
-				timeout: 3000,
+				timeout: 3000
 			};
-			toastStore.trigger(t)
+			toastStore.trigger(t);
 		}
-	})
+	});
 </script>
 
 <Toast />
@@ -89,46 +101,43 @@
 	<div class="flex flex-col h-full p-4 justify-between">
 		<div class="flex flex-col gap-4 mt-4 items-center w-full">
 			<a href="/">
-				<h2 class="h2">
-					Maya
-				</h2>
+				<h2 class="h2">Maya</h2>
 			</a>
 			{#if $page.data.user}
-			<hr class="w-2/3" />
-			<a href="/profile" on:click={() => drawerStore.close()} >
-			<div class="flex flex-col items-center w-full">
-					<Avatar src={$page.data.user.avatar} width="w-16" />
-					<div class="flex gap-2 items-center mt-2">
-						{$page.data.user.name}
+				<hr class="w-2/3" />
+				<a href="/profile" on:click={() => drawerStore.close()}>
+					<div class="flex flex-col items-center w-full">
+						<Avatar src={$page.data.user.avatar} width="w-16" />
+						<div class="flex gap-2 items-center mt-2">
+							{$page.data.user.name}
+						</div>
 					</div>
-				</div>
-			</a>
+				</a>
 			{/if}
 			<hr class="w-2/3" />
 			{#if $page.data.user}
-			<a href="/dashboard">
-				<button class="btn variant-filled-primary">
-					Dashboard
-				</button>
-			</a>
+				<a href="/dashboard">
+					<button class="btn variant-filled-primary"> Dashboard </button>
+				</a>
 			{/if}
 			<a href="/about-us">About Us</a>
 			<a href="/servers">Servers</a>
 			{#if $page.data.user}
-			<hr class="w-2/3" />
-			<form action="/logout" method="POST" class="flex flex-col gap-0 text-center">
-				<button class="btn variant-ghost-error mb-4" type="submit">
-					Logout
-				</button>
-			</form>
+				<hr class="w-2/3" />
+				<form action="/logout" method="POST" class="flex flex-col gap-0 text-center">
+					<button class="btn variant-ghost-error mb-4" type="submit"> Logout </button>
+				</form>
 			{:else}
-			<hr class="w-2/3" />
+				<hr class="w-2/3" />
 				<LoginWithMaya />
 			{/if}
 		</div>
 		<footer class="flex flex-col gap-4 mt- items-center w-full">
 			<hr class="w-2/3" />
-			<button class="btn hover:variant-soft-primary" use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}>
+			<button
+				class="btn hover:variant-soft-primary"
+				use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}
+			>
 				<Icon icon="fa6-solid:palette" class="text-lg" />
 				<span class="hidden md:inline-block">Theme</span>
 				<Icon icon="fa-solid:caret-down" class="opacity-50" />
@@ -167,9 +176,7 @@
 			</div>
 			<p>
 				Join our
-				<a href="https://www.guilded.gg/i/ENZ8RVWE" target="_blank">
-					Guilded Server!
-				</a>
+				<a href="https://www.guilded.gg/i/ENZ8RVWE" target="_blank"> Guilded Server! </a>
 			</p>
 		</footer>
 	</div>
