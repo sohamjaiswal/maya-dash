@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ServerSettings } from '$lib/types/maya.js';
+	import type { ServerSettings } from '$lib/types/maya';
 	import Icon from '@iconify/svelte';
-	import { SlideToggle, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { SlideToggle, getToastStore } from '@skeletonlabs/skeleton';
 	import { tooltip } from '@svelte-plugins/tooltips';
 	import { onMount } from 'svelte';
   
