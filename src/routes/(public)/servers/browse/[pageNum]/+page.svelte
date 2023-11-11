@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
   $: filter_type = 'time'
   $: pageNumber = $page.params.pageNum
-  let useServers: {
+  type Server = {
     avatar: string;
     banner: string;
     id: string;
@@ -14,10 +14,15 @@
     time: number;
     upvotes: number;
     url: string;
-  }[] = []
+  }
+  let useServers: Server[] = []
+  let nextServers: Server[] = []
   $: useServers
+  $: nextServers
   let getServers: (filter_type: string, pageNumber: string) => Promise<void> = async () => {}
+  let getNextServers: (filter_type: string, pageNumber: string) => Promise<void> = async () => {}
   $: getServers(filter_type, pageNumber)
+  $: getNextServers(filter_type, pageNumber)
   onMount(() => {
     getServers = async (filter_type, pageNumber) => {
     const servers = (await (await fetch(`/servers/browse/${pageNumber}`, {
@@ -28,12 +33,21 @@
     })).json())
     useServers = servers
   }
+  getNextServers = async (filter_type, pageNumber) => {
+    const servers = (await (await fetch(`/servers/browse/${pageNumber+1}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        filter_type
+      })
+    })).json())
+    nextServers = servers
+  }
   })
 </script>
 <div class="flex flex-col items-center">
   <div class="container">
-    <div class="flex gap-4 items-center justify-between">
-      <div class="flex gap-4">
+    <div class="flex gap-4 items-center justify-between mt-5">
+      <div class="flex gap-4 items-center">
         <h1 class="h1">
           Top Bumped Servers!
         </h1>
@@ -44,11 +58,11 @@
       </div>
       <div class="flex gap-4">
         <!-- next page and prev page buttons -->
-        <button class="btn variant-filled-primary" disabled={parseInt(pageNumber) <= 1} on:click={() => goto(`/servers/bumped/${parseInt(pageNumber) - 1}`)}>
+        <button class="btn variant-filled-primary" disabled={parseInt(pageNumber) <= 1} on:click={() => goto(`/servers/browse/${parseInt(pageNumber) - 1}`)}>
           👈 Prev Page 
         </button>
-        <a href={`/servers/bumped/${parseInt(pageNumber) + 1}`}>
-          <button class="btn variant-filled-primary">
+        <a href={`/servers/browse/${parseInt(pageNumber) + 1}`}>
+          <button class="btn variant-filled-primary" disabled={nextServers.length === 0}>
             Next Page 👉
           </button>
         </a>
