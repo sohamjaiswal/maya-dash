@@ -29,7 +29,7 @@
       <div class="card text-center items-center w-full custom-height my-10 overflow-hidden rounded-2xl">
         <div class="relative h-[calc(100vh-10rem)] md:h-[calc(100vh-20rem)]">
           <header class="card-header relative">
-            <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-no-repeat" />
+            <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-no-repeat bg-cover" />
           </header>
           <div class="card-body flex flex-col items-center w-full h-full translate-y-16 relative">
             <div class="w-full translate-y-24 flex justify-center lg:block lg:px-8">
