@@ -63,15 +63,62 @@
 
 <div class="flex flex-col items-center">
 	<div class="container">
-		<div class="flex gap-4 items-center justify-between mt-5">
-			<div class="flex gap-4 items-center">
-				<h1 class="h1">Top Bumped Servers!</h1>
-				<RadioGroup>
-					<RadioItem bind:group={filter_type} name="justify" value={'time'}>⏰</RadioItem>
-					<RadioItem bind:group={filter_type} name="justify" value={'upvotes'}>⬆️</RadioItem>
-				</RadioGroup>
-			</div>
-			<div class="flex gap-4">
+		<div class="w-full text-center mt-5">
+      <h1 class="h1">Top Bumped Servers!</h1>
+		</div>
+    <div class="flex justify-between">
+      <h2 class="h2 mt-4">
+        Page: {$page.params.pageNum}
+      </h2>
+      <select class="select w-min" name="filter_type" id="filter_type" bind:value={filter_type}>
+        <option value="time">⏰ Time</option>
+        <option value="upvotes">⬆️ Upvotes</option>
+      </select>
+    </div>
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex flex-wrap justify-center gap-4 mt-10">
+        {#each useServers as server}
+          <a href={`/servers/${server.id}`}>
+            <div class="card bg-initial w-[22rem] h-96 overflow-hidden">
+              <header class="card-header relative">
+                <div
+                  style={`background-image: url(${server.banner})`}
+                  class="absolute left-0 right-0 h-60 top-0 bg-cover bg-center"
+                />
+              </header>
+              <div class="flex flex-col h-full items-center justify-end pb-10">
+                <Avatar src={server.avatar} width="w-32" />
+                <h6 class="h6">
+                  {server.name}
+                </h6>
+                <div class="flex gap-4 p-2">
+                  <div class="flex gap-4">
+                    <div class="flex flex-col gap-1">
+                      <h6 class="h6">👥 Members</h6>
+                      <p class="p">
+                        {server.members}
+                      </p>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <h6 class="h6">⬆️ Upvotes</h6>
+                      <p class="p">
+                        {server.upvotes}
+                      </p>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <h6 class="h6">⏰ Bumped</h6>
+                      <p class="p">
+                        {server.time_display}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        {/each}
+      </div>
+      <div class="flex gap-4">
 				<!-- next page and prev page buttons -->
 				<button
 					class="btn variant-filled-primary"
@@ -86,51 +133,6 @@
 					</button>
 				</a>
 			</div>
-		</div>
-		<h2 class="h2 mt-4">
-			Page: {$page.params.pageNum}
-		</h2>
-		<div class="flex flex-wrap justify-center gap-4 mt-10">
-			{#each useServers as server}
-				<a href={`/servers/${server.id}`}>
-					<div class="card bg-initial w-[22rem] h-96 overflow-hidden">
-						<header class="card-header relative">
-							<div
-								style={`background-image: url(${server.banner})`}
-								class="absolute left-0 right-0 h-60 top-0 bg-cover bg-center"
-							/>
-						</header>
-						<div class="flex flex-col h-full items-center justify-end pb-10">
-							<Avatar src={server.avatar} width="w-32" />
-							<h6 class="h6">
-								{server.name}
-							</h6>
-							<div class="flex gap-4 p-2">
-								<div class="flex gap-4">
-									<div class="flex flex-col gap-1">
-										<h6 class="h6">👥 Members</h6>
-										<p class="p">
-											{server.members}
-										</p>
-									</div>
-									<div class="flex flex-col gap-1">
-										<h6 class="h6">⬆️ Upvotes</h6>
-										<p class="p">
-											{server.upvotes}
-										</p>
-									</div>
-									<div class="flex flex-col gap-1">
-										<h6 class="h6">⏰ Bumped</h6>
-										<p class="p">
-											{server.time_display}
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</a>
-			{/each}
-		</div>
+    </div>
 	</div>
 </div>

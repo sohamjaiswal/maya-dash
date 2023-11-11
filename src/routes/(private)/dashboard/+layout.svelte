@@ -23,7 +23,6 @@
 
 <AppShell>
   <svelte:fragment slot="sidebarLeft">
-    <!-- fixed button that displays only on bottom right -->
     <button class="btn-icon md:hidden w-12 h-12 variant-filled-primary fixed bottom-4 left-4" on:click={() => drawerStore.open(drawerSettings)}>
       <Icon icon="bxs:server" class="w-8 h-8" />
     </button>
