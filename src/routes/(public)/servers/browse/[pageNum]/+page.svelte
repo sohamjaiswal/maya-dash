@@ -33,7 +33,6 @@
         filter_type
       })
     })).json())
-    console.log(servers)
     useServers = servers
   }
   getNextServers = async (filter_type, pageNumber) => {
