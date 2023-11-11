@@ -2,6 +2,20 @@
 	// import YeeYeeAssHaircut from "$lib/components/YeeYeeAssHaircut/YeeYeeAssHaircut.svelte";
 	import { onMount } from "svelte";
 </script>
+
+<svelte:head>
+  <title>
+    Maya — The best Guilded bot for your server!
+  </title>
+
+  <meta property="og:title" content={`Maya`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mayabot.xyz" />
+  <meta property="og:description" content={`Maya is the best bot on guilded, offering many features like dashboard, moderation, ads, fun among others.`} />
+  <meta name="keywords" content={`Guilded, Maya, Server Discovery, Guilded Search, Moderation`}>
+  <meta name="author" content={`TooMuchHam, SoSweetHam (scraping)`}>
+</svelte:head>
+
 <div class="flex justify-center h-[calc(100vh-0.5rem)]">
 	<div class="flex flex-col items-center justify-around">
 		<div class="container text-center">

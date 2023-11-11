@@ -18,8 +18,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mayabot.xyz" />
   <meta property="og:image" content={server.avatar} />
-  <meta property="og:description" content={`See ${server.name} on Gilboard!\n${server.about?server.about:''}`} />
-  <meta name="keywords" content={`Guilded, Gilboard, Server Discovery, Guilded Search, ${server.name}, tags: ${server.tags.join(', ')}`}>
+  <meta property="og:description" content={`See ${server.name} on Maya!\n${server.about?server.about:''}`} />
+  <meta name="keywords" content={`Guilded, Maya, Server Discovery, Guilded Search, ${server.name}, tags: ${server.tags.join(', ')}`}>
   <meta name="author" content={`TooMuchHam, SoSweetHam (scraping), gen data from ${server.owner_data.name} @ Guilded`}>
 </svelte:head>
 
