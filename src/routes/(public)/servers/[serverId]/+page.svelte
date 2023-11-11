@@ -89,7 +89,7 @@
         </div>
       </main>
       <footer class="my-4 px-6">
-        <div class="flex flex-col items-center md:flex-row md:ml-[50%] gap-4 flex-wrap">
+        <div class="flex flex-col items-center md:flex-row gap-4 flex-wrap">
           <a href={`${server.url}`} target="_blank" rel="noopener noreferrer">
             <button class="btn variant-filled-primary">
               Join {server.name}

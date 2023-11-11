@@ -11,7 +11,18 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { storeTheme } from '$lib/stores/stores';
+	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
+
+		$: if (browser && analyticsId) {
+			webVitals({
+				path: $page.url.pathname,
+				params: $page.params,
+				analyticsId
+			})
+		}
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { webVitals } from '$lib/utils/vitals';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 	const drawerStore = getDrawerStore();
