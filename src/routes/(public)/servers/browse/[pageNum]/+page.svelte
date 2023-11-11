@@ -63,18 +63,18 @@
 
 <div class="flex flex-col items-center">
 	<div class="container">
-		<div class="w-full text-center mt-5">
-      <h1 class="h1">Top Bumped Servers!</h1>
+		<div class="w-full grid grid-cols-3 mt-5">
+      <div class="dummy" />
+      <div class="text-center">
+        <h1 class="h1">Top Bumped Servers!</h1>
+      </div>
+      <div class="flex justify-end items-center h-full">
+        <select class="select w-min h-min" name="filter_type" id="filter_type" bind:value={filter_type}>
+          <option value="time">⏰ Time</option>
+          <option value="upvotes">⬆️ Upvotes</option>
+        </select>
+      </div>
 		</div>
-    <div class="flex justify-between">
-      <h2 class="h2 mt-4">
-        Page: {$page.params.pageNum}
-      </h2>
-      <select class="select w-min" name="filter_type" id="filter_type" bind:value={filter_type}>
-        <option value="time">⏰ Time</option>
-        <option value="upvotes">⬆️ Upvotes</option>
-      </select>
-    </div>
     <div class="flex flex-col items-center gap-4">
       <div class="flex flex-wrap justify-center gap-4 mt-10">
         {#each useServers as server}
@@ -118,21 +118,24 @@
           </a>
         {/each}
       </div>
-      <div class="flex gap-4">
-				<!-- next page and prev page buttons -->
-				<button
-					class="btn variant-filled-primary"
-					disabled={parseInt(pageNumber) <= 1}
-					on:click={() => goto(`/servers/browse/${parseInt(pageNumber) - 1}`)}
-				>
-					👈 Prev Page
-				</button>
-				<a href={`/servers/browse/${parseInt(pageNumber) + 1}`}>
-					<button class="btn variant-filled-primary" disabled={nextServers.length === 0}>
-						Next Page 👉
-					</button>
-				</a>
-			</div>
+        <div class="flex gap-4 items-center">
+          <!-- next page and prev page buttons -->
+          <button
+          class="btn variant-filled-primary"
+          disabled={parseInt(pageNumber) <= 1}
+          on:click={() => goto(`/servers/browse/${parseInt(pageNumber) - 1}`)}
+          >
+          👈 Prev Page
+        </button>
+        <strong>
+          Current Page: {$page.params.pageNum}
+        </strong>
+          <a href={`/servers/browse/${parseInt(pageNumber) + 1}`}>
+            <button class="btn variant-filled-primary" disabled={nextServers.length === 0}>
+              Next Page 👉
+            </button>
+          </a>
+        </div>
     </div>
 	</div>
 </div>
