@@ -43,6 +43,7 @@
           background: "variant-filled-error",
         }
         toastStore.trigger(t)
+        return
       }
       const servers = (await (await fetch(`/servers/browse/${pNum+1}`, {
         method: 'POST',
