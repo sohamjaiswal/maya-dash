@@ -27,7 +27,7 @@
   <div class="container">
     <div class="flex flex-col gap-4 items-center justify-between">
       <div class="card text-center items-center w-full custom-height my-10 overflow-hidden rounded-2xl">
-        <div class="relative h-[calc(100vh-10rem)] md:h-[calc(100vh-20rem)]">
+        <div class="relative h-[calc(100vh-8rem)] md:h-[calc(100vh-20rem)]">
           <header class="card-header relative">
             <div style={`background-image: url(${server.banner})`} class="absolute left-0 right-0 h-60 top-0 bg-no-repeat bg-cover" />
           </header>
@@ -66,69 +66,73 @@
                   <h2>📅 Created At:</h2>
                   <p>{(new Date(server.created)).toLocaleString()}</p>
                 </div>
-                <div class="text-start w-1/2 p-2">
+                <div class="text-start w-full p-2">
                   <h2>👑 Owner</h2>
-                  <OwnerButton text={`Contact ${server.owner_data.name}`} ownerId={server.owner_data.id} ownerAvatar={server.owner_data.avatar} />
+                  <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <OwnerButton text={`Contact ${server.owner_data.name}`} ownerId={server.owner_data.id} ownerAvatar={server.owner_data.avatar} />
+                    <div class="flex flex-col items-center md:flex-row gap-4 flex-wrap">
+                      <a href={`${server.url}`} target="_blank" rel="noopener noreferrer">
+                        <button class="btn variant-filled-primary">
+                          Join {server.name}
+                        </button>
+                      </a>
+                      <div class="flex gap-2 flex-col items-center md:flex-row">
+                        {#if user}
+                        <form method="post" action="?/upvoteServer" use:enhance={() => {
+                          return ({result}) => {
+                            if (result.type === "success") {
+                              // make settings updated toast
+                              const t = {
+                                message: result.data?.message,
+                                background: "variant-filled-success",
+                              }
+                              toastStore.trigger(t)
+                            } else if (result.type === "failure") {
+                              // make settings updated toast
+                              const t = {
+                                message: result.data?.message,
+                                background: "variant-filled-error",
+                              }
+                              toastStore.trigger(t)
+                            }
+                          }
+                        }}>
+                          <button type="submit" class="btn variant-filled-secondary">
+                            Upvote
+                          </button>
+                        </form>
+                        <form method="post" action="?/bumpServer" use:enhance={() => {
+                          return ({result}) => {
+                            if (result.type === "success") {
+                              // make settings updated toast
+                              const t = {
+                                message: result.data?.message,
+                                background: "variant-filled-success",
+                              }
+                              toastStore.trigger(t)
+                            } else if (result.type === "failure") {
+                              // make settings updated toast
+                              const t = {
+                                message: result.data?.message,
+                                background: "variant-filled-error",
+                              }
+                              toastStore.trigger(t)
+                            }
+                          }
+                        }}>
+                          <button type="submit" class="btn variant-filled-secondary">
+                            Bump
+                          </button>
+                        </form>
+                        {/if}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </main>
           </div>
           <footer class="absolute bottom-4 md:right-4 flex gap-4 w-full justify-center md:justify-end">
-            <div class="flex flex-col items-center md:flex-row gap-4 flex-wrap">
-            <a href={`${server.url}`} target="_blank" rel="noopener noreferrer">
-              <button class="btn variant-filled-primary">
-                Join {server.name}
-              </button>
-            </a>
-            {#if user}
-            <form method="post" action="?/upvoteServer" use:enhance={() => {
-              return ({result}) => {
-                if (result.type === "success") {
-                  // make settings updated toast
-                  const t = {
-                    message: result.data?.message,
-                    background: "variant-filled-success",
-                  }
-                  toastStore.trigger(t)
-                } else if (result.type === "failure") {
-                  // make settings updated toast
-                  const t = {
-                    message: result.data?.message,
-                    background: "variant-filled-error",
-                  }
-                  toastStore.trigger(t)
-                }
-              }
-            }}>
-              <button type="submit" class="btn variant-filled-secondary">
-                Upvote
-              </button>
-            </form>
-            <form method="post" action="?/bumpServer" use:enhance={() => {
-              return ({result}) => {
-                if (result.type === "success") {
-                  // make settings updated toast
-                  const t = {
-                    message: result.data?.message,
-                    background: "variant-filled-success",
-                  }
-                  toastStore.trigger(t)
-                } else if (result.type === "failure") {
-                  // make settings updated toast
-                  const t = {
-                    message: result.data?.message,
-                    background: "variant-filled-error",
-                  }
-                  toastStore.trigger(t)
-                }
-              }
-            }}>
-              <button type="submit" class="btn variant-filled-secondary">
-                Bump
-              </button>
-            </form>
-            {/if}
-          </div>
           </footer>
         </div>
       </div>
