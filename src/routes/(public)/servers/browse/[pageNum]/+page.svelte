@@ -104,7 +104,7 @@
                   </p>
                 </div>
                 <p class="p">
-                  {(new Date(server.time)).toLocaleString()}
+                  {server.time} minutes ago
                 </p>
               </div>
             </div>
