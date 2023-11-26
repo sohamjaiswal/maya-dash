@@ -41,6 +41,7 @@ export const actions = {
     const log_traffic_channel = data.get('log_traffic_channel')
     const welcome_channel = data.get('welcome_channel')
     const welcome_message = data.get('welcome_message')
+    const welcome_banner_enabled = data.get('welcome_banner_enabled')
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/settings`, {
       method: 'POST',
       headers: {
@@ -57,7 +58,8 @@ export const actions = {
         log_events_channel,
         log_traffic_channel,
         welcome_channel,
-        welcome_message
+        welcome_message,
+        welcome_banner_enabled: welcome_banner_enabled === 'on'
       })
     })
     if (updateServerSettingsRes.ok) {
@@ -74,7 +76,8 @@ export const actions = {
       log_traffic_channel,
       welcome_channel,
       welcome_message,
-      message:message
+      message:message,
+      welcome_banner_enabled
     })
   }
 }

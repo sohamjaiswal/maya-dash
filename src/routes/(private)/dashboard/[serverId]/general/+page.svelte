@@ -14,6 +14,7 @@
   $: welcome_enabled = form?.welcome_channel_enabled ? form?.welcome_channel_enabled == "on" : false
   onMount(async() => {
     serverSettings = await data.lazy.serverSettings
+    console.log(serverSettings)
     log_enabled = serverSettings.settings.log_enabled
     welcome_enabled = serverSettings.settings.welcome_channel_enabled
   })
@@ -109,6 +110,10 @@
               <option  value={channelId}>{serverData.channels[`${channelId}`].name}</option>
             {/each}
           </select>
+        </label>
+        <label class:hidden={!!form?.welcome_channel ?? !!serverData.settings.welcome_channel} for="welcome_banner_enabled" class="flex gap-4 items-center">
+          Enable Welcome Banner
+          <SlideToggle id="welcome_banner_enabled" name="welcome_banner_enabled" />
         </label>
         <label for="welcome_message">
           <div class="flex items-center gap-1">
