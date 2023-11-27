@@ -41,7 +41,8 @@ export interface ServerSettings {
     prefix: string
     welcome_channel?: string
     welcome_channel_enabled: boolean
-    welcome_message?: string
+    welcome_message?: string,
+    welcome_banner_enabled: boolean
   }
   channels: {
     [key: string]: {
