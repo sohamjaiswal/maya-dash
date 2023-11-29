@@ -70,7 +70,7 @@
           <code>
             &lt;prefix&gt;activate {code}
           </code>
-          in a guilded channel with Maya to recieve activate Dashboard here!
+          in a Guilded channel with Maya to login!
         </span>
         <button type="submit" class="btn variant-filled-secondary">
           Verify!
