@@ -97,12 +97,12 @@
 		{#if searchUser == ''}
 			<div class="h-[calc(100vh-20rem)] overflow-y-scroll flex flex-col gap-4">
 				{#each paginatedMembers as member}
-					<div class="card p-4 flex items-center bg-initial justify-between">
-						<div class="flex gap-2 items-center">
+					<div class="card p-4 flex flex-col md:flex-row items-center bg-initial justify-between">
+						<div class="flex flex-col md:flex-row gap-2 items-center">
 							<Avatar src={member.avatar} width="w-12" rounded="rounded-full" />
 							{member.name}
 						</div>
-						<div class="flex gap-4 items-center">
+						<div class="flex flex-col md:flex-row gap-4 items-center">
 							{member.id}
 							<form action="?/kick" method="post" use:enhance={handleMemberSubmit}>
 								<input type="hidden" name="id" value={member.id} />
@@ -122,16 +122,17 @@
 				showPreviousNextButtons={true}
 				showNumerals
 				maxNumerals={3}
+				class="z-0"
 			/>
 		{:else if members.length > 0}
 			<div class="h-[calc(100vh-20rem)] overflow-y-scroll flex flex-col gap-4">
 				{#each members as member}
-					<div class="card p-4 flex items-center bg-initial justify-between">
-						<div class="flex gap-2 items-center">
+					<div class="card p-4 flex flex-col md:flex-row items-center bg-initial justify-between">
+						<div class="flex flex-col md:flex-row gap-2 items-center">
 							<Avatar src={member.avatar} width="w-12" rounded="rounded-full" />
 							{member.name}
 						</div>
-						<div class="flex gap-4 items-center">
+						<div class="flex flex-col md:flex-row gap-4 items-center">
 							{member.id}
 							<form action="?/kick" method="post" use:enhance={handleMemberSubmit}>
 								<input type="hidden" name="id" value={member.id} />
