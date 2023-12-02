@@ -7,8 +7,6 @@
 		storePopup,
 		getDrawerStore,
 		Avatar,
-		popup,
-		LightSwitch,
 		Toast,
 		getToastStore,
 		type ToastSettings
@@ -19,10 +17,6 @@
 	import GlobalBar from '$lib/components/GlobalBar/GlobalBar.svelte';
 	import { page } from '$app/stores';
 	import LoginWithMaya from '$lib/components/LoginWithMaya/LoginWithMaya.svelte';
-	import Icon from '@iconify/svelte';
-	import { enhance } from '$app/forms';
-	import type { SubmitFunction } from '@sveltejs/kit';
-	import { storeTheme } from '$lib/stores/stores';
 	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
 
 	$: if (browser && analyticsId) {
@@ -35,31 +29,10 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { webVitals } from '$lib/utils/vitals';
+	import ThemeSelector from '$lib/components/ThemeSelector/ThemeSelector.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 	const drawerStore = getDrawerStore();
-	const setTheme: SubmitFunction = ({ formData }) => {
-		const theme = formData.get('theme')?.toString();
-		if (theme) {
-			document.body.setAttribute('data-theme', theme);
-			$storeTheme = theme;
-		}
-	};
-	const themes = [
-		{type: 'maya', name: 'Maya', icon: '🔮'},
-		{ type: 'skeleton', name: 'Skeleton', icon: '💀' },
-		{ type: 'wintry', name: 'Wintry', icon: '🌨️' },
-		{ type: 'modern', name: 'Modern', icon: '🤖' },
-		{ type: 'rocket', name: 'Rocket', icon: '🚀' },
-		{ type: 'seafoam', name: 'Seafoam', icon: '🧜‍♀️' },
-		{ type: 'vintage', name: 'Vintage', icon: '📺' },
-		{ type: 'sahara', name: 'Sahara', icon: '🏜️' },
-		{ type: 'hamlindigo', name: 'Hamlindigo', icon: '👔' },
-		{ type: 'gold-nouveau', name: 'Gold Nouveau', icon: '💫' },
-		{ type: 'crimson', name: 'Crimson', icon: '⭕' }
-		// { type: 'seasonal', name: 'Seasonal', icon: '🎆' }
-		// { type: 'test', name: 'Test', icon: '🚧' },
-	];
 	const toastStore = getToastStore();
 	onMount(async () => {
 		// check for success query param, do success toast if exists
@@ -179,6 +152,9 @@
 					<button class="btn variant-filled-primary"> Dashboard </button>
 				</a>
 			{/if}
+			<a href="https://www.guilded.gg/b/bae67135-8e50-4b11-b7e9-d3e8da26f4ec" target="_blank" rel="noopener noreferrer">
+					Invite Maya!
+			</a>
 			<a href="/about-us">About Us</a>
 			<a href="/servers">Servers</a>
 			{#if $page.data.user}
@@ -193,46 +169,7 @@
 		</div>
 		<footer class="flex flex-col gap-4 mt- items-center w-full">
 			<hr class="w-2/3" />
-			<button
-				class="btn hover:variant-soft-primary"
-				use:popup={{ event: 'click', target: 'theme', closeQuery: 'a[href]' }}
-			>
-				<Icon icon="fa6-solid:palette" class="text-lg" />
-				<span class="hidden md:inline-block">Theme</span>
-				<Icon icon="fa-solid:caret-down" class="opacity-50" />
-			</button>
-			<!-- popup -->
-			<div class="card p-4 w-60 shadow-xl" data-popup="theme">
-				<div class="space-y-4">
-					<section class="flex justify-between items-center">
-						<h6 class="h6">Mode</h6>
-						<LightSwitch />
-					</section>
-					<hr />
-					<nav class="list-nav p-4 -m-4 max-h-64 lg:max-h-[500px] overflow-y-auto">
-						<form method="post" action="/?/setTheme" use:enhance={setTheme}>
-							<ul>
-								<!-- , badge -->
-								{#each themes as { icon, name, type }}
-									<li>
-										<button
-											class="option w-full h-full"
-											type="submit"
-											name="theme"
-											value={type}
-											class:bg-primary-active-token={$storeTheme === type}
-										>
-											<span>{icon}</span>
-											<span class="flex-auto text-left">{name}</span>
-											<!-- {#if badge}<span class="badge variant-filled-secondary">{badge}</span>{/if} -->
-										</button>
-									</li>
-								{/each}
-							</ul>
-						</form>
-					</nav>
-				</div>
-			</div>
+			<ThemeSelector />
 			<p>
 				Join our
 				<a href="https://www.guilded.gg/i/ENZ8RVWE" target="_blank"> Guilded Server! </a>
