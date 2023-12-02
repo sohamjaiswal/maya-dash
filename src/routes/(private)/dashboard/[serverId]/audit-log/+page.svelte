@@ -43,15 +43,15 @@
 	<div class="flex flex-col gap-4 p-2">
 		<div class="h-[calc(100vh-16rem)] overflow-y-scroll flex flex-col gap-4">
 			{#each paginatedAudits as audit}
-				<div class="card p-4 grid grid-cols-5 bg-initial w-full">
-					<div class="flex gap-2 items-center">
+				<div class="card p-4 md:grid md:grid-cols-5 flex flex-col gap-4 bg-initial w-full">
+					<div class="flex gap-2 justify-center items-center">
 						<Avatar src={audit.user.avatar} width="w-12" rounded="rounded-full" />
 						{audit.user.name}
 					</div>
-					<div class="flex items-center">
+					<div class="flex justify-center items-center">
 						{audit.user.id}
 					</div>
-					<div class="flex items-center">
+					<div class="flex justify-center items-center">
 						{#if audit.action == 'Kick'}
 							🥾 Kicked
 						{:else if audit.action == 'Ban'}
@@ -100,10 +100,10 @@
 							🗑️ Cleared Messages In Between
 						{/if}
 					</div>
-					<div class="flex items-center">
+					<div class="flex items-center justify-center">
 						{audit.victim.id}
 					</div>
-					<div class="flex gap-2 items-center justify-end">
+					<div class="flex-row-reverse gap-2 items-center justify-center flex md:flex-row md:justify-end">
 						{audit.victim.name}
 						<Avatar src={audit.victim.avatar} width="w-12" rounded="rounded-full" />
 					</div>
