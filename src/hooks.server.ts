@@ -12,8 +12,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (cookieTheme) {
 		theme = cookieTheme;
 	} else {
-		event.cookies.set('theme', 'skeleton');
-		theme = 'skeleton';
+		event.cookies.set('theme', 'maya');
+		theme = 'maya';
 	}
 
 	if (!mayaToken) {

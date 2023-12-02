@@ -46,6 +46,7 @@
 		}
 	};
 	const themes = [
+		{type: 'maya', name: 'Maya', icon: '🔮'},
 		{ type: 'skeleton', name: 'Skeleton', icon: '💀' },
 		{ type: 'wintry', name: 'Wintry', icon: '🌨️' },
 		{ type: 'modern', name: 'Modern', icon: '🤖' },
