@@ -41,7 +41,7 @@
 			<div class="flex flex-col items-center justify-around">
 				<div class="flex flex-col md:flex-row gap-8">
 					<img src="/images/image_template.png" alt="Template" class="md:w-1/2">
-					<div class="flex flex-col gap-4">
+					<div class="flex flex-col gap-4 justify-center">
 						<h2 class="h2 font-bold">
 							Moderation Made Easy
 						</h2>
@@ -55,7 +55,7 @@
 		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
 			<div class="flex flex-col items-center justify-around">
 				<div class="flex flex-col-reverse md:flex-row gap-8">
-					<div class="flex flex-col gap-4">
+					<div class="flex flex-col gap-4 justify-center">
 						<h2 class="h2 font-bold">
 							Advanced Support Tools
 						</h2>
