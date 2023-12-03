@@ -39,7 +39,8 @@
 		</section>
 		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
 			<div class="flex flex-col items-center justify-around">
-				<div class="flex gap-8">
+				<div class="flex flex-col md:flex-row gap-8">
+					<img src="/images/image_template.png" alt="Template" class="md:w-1/2">
 					<div class="flex flex-col gap-4">
 						<h2 class="h2 font-bold">
 							Moderation Made Easy
@@ -53,7 +54,7 @@
 		</section>
 		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
 			<div class="flex flex-col items-center justify-around">
-				<div class="flex gap-8">
+				<div class="flex flex-col-reverse md:flex-row gap-8">
 					<div class="flex flex-col gap-4">
 						<h2 class="h2 font-bold">
 							Advanced Support Tools
@@ -62,6 +63,7 @@
 							Prioritise easier communication with your support team. A simple reaction to a support embed creates a dedicated channel for the user. You can set up different support categories for the user to choose from so the appropriate mod is assigned to their ticket. Our ticket tool is designed to streamline inquiries and improve response times. Our goal is to provide essential tools that improve the overall user experience of your community.
 						</p>
 					</div>
+					<img src="/images/image_template.png" alt="Template" class="md:w-1/2">
 				</div>
 			</div>
 		</section>
