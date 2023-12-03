@@ -14,6 +14,9 @@
 		element.style.height = `calc(100vh - ${firstSectionHeight}px)`
 		element.style.marginTop = `${firstSectionHeight}px`
 	}
+	const setMargin = (element: HTMLElement) => {
+		element.style.marginTop = `${firstSectionHeight}px`
+	}
 	let useServers: AdvertisedServer[] = [];
 	let getServers: (filter_type: string, pageNumber: string) => Promise<void> = async () => {};
 	onMount(() => {
@@ -46,9 +49,19 @@
 </svelte:head>
 
 <div class="w-full flex flex-col items-center snap snap-y snap-mandatory mx:auto overflow-scroll " use:setHeight>
-	<div class="container">
-		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
-			<div class="flex flex-col items-center justify-around h-[calc(100%-64px)] pt-8 gap-8">
+	<div class="container overflow-visible">
+		<section class="flex justify-center h-screen snap-start shrink-0 relative overflow-visible" use:setHeightAndMargin>
+			<div class="absolute h-1/2 w-screen overflow-visible">
+				<div class="absolute h-full w-screen top-0"  style={
+					`
+						background-image: url('/images/top-banner.webp');
+						background-size: cover;
+						background-position: center;
+						z-index: -1;
+					`
+				} />
+			</div>
+			<div class="flex flex-col items-center justify-around h-[calc(100%-64px)] pt-8 gap-8" >
 				<div class="flex flex-col md:flex-row items-center gap-8 h-[41.66667%]">
 					<div class="flex flex-col items-center h-full gap-4 justify-center">
 						<h1 class="h1 text-center">
@@ -67,7 +80,6 @@
 							</button>
 						</div>
 					</div>
-					<img src="/images/image_template.png" alt="Template" class="hidden md:block max-h-full">
 				</div>
 				<div class="flex flex-col md:flex-row gap-8 h-[41.66667%]">
 					<img src="/images/image_template.png" alt="Template" class="hidden md:block max-h-full">
