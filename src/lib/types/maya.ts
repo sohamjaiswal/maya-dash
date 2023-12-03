@@ -119,3 +119,15 @@ export interface StaffData {
   bio: string;
   banner: string;
 }
+
+export type AdvertisedServer = {
+  avatar: string;
+  banner: string;
+  id: string;
+  name: string;
+  members: number;
+  time: number;
+  time_display: string;
+  upvotes: number;
+  url: string;
+};

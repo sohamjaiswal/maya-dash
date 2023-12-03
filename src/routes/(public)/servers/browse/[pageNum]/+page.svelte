@@ -1,24 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Avatar, RadioGroup, RadioItem, getToastStore } from '@skeletonlabs/skeleton';
+	import type { AdvertisedServer } from '$lib/types/maya';
+	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	const toastStore = getToastStore();
 	$: filter_type = 'time';
 	$: pageNumber = $page.params.pageNum;
-	type Server = {
-		avatar: string;
-		banner: string;
-		id: string;
-		name: string;
-		members: number;
-		time: number;
-		time_display: string;
-		upvotes: number;
-		url: string;
-	};
-	let useServers: Server[] = [];
-	let nextServers: Server[] = [];
+	let useServers: AdvertisedServer[] = [];
+	let nextServers: AdvertisedServer[] = [];
 	$: useServers;
 	$: nextServers;
 	let getServers: (filter_type: string, pageNumber: string) => Promise<void> = async () => {};
