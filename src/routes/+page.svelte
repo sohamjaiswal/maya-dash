@@ -61,7 +61,7 @@
 					`
 				} />
 			</div>
-			<div class="flex flex-col items-center justify-around h-[calc(100%-64px)] pt-8 gap-8" >
+			<div class="flex flex-col items-center justify-around h-[calc(100%-64px)] pt-8 gap-[128px]" >
 				<div class="flex flex-col md:flex-row items-center gap-8 h-[41.66667%]">
 					<div class="flex flex-col items-center h-full gap-4 justify-center">
 						<h1 class="h1 text-center">
