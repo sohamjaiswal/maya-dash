@@ -18,35 +18,13 @@
     guildedUser = userData
   })
 
-  const handleDashActivate = async() => {
-    const validate = await fetch(`https://api.mayabot.xyz/token/${$page.params.userId}/generate/token`, {
-      method: 'POST',
-      body: JSON.stringify({
-        "password": code
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const data = await validate.json()
-    if (validate.ok) {
-      userId.set(data.data.user_id)
-      mayaToken.set(data.data.token)
-      // get userdata now
-      const userData = await (await fetch(`https://api.mayabot.xyz/userdata`, {
-        headers: {
-          UserID: $userId,
-          Token: $mayaToken
-        }, method: 'GET'
-      })).json()
-      // window.location.href = "/dashboard"
-    } else {
-      alert("Invalid Passcode")
-    }
-  }
+  const firstSectionHeight = 90 + ($page.data.apiStatus.code !== 200 ? 40 : 0);
+  const setHeight = (element: HTMLElement) => {
+		element.style.height = `calc(100vh - ${firstSectionHeight}px)`
+	}
 </script>
 
-<div class="flex flex-col items-center gap-4">
+<div class="flex flex-col items-center justify-center gap-4" use:setHeight>
   <div class="container flex flex-col items-center gap-4">
     <h1 class="h1">
       Hi {guildedUser?.name} 👋
