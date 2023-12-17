@@ -1,22 +1,10 @@
 <script lang="ts">
 	import { page } from "$app/stores";
+	import TrustedByBar from "$lib/components/TrustedByBar/TrustedByBar.svelte";
 	import type { AdvertisedServer } from "$lib/types/maya";
 	import { Avatar } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
 
-	// import YeeYeeAssHaircut from "$lib/components/YeeYeeAssHaircut/YeeYeeAssHaircut.svelte";
-	const firstSectionHeight = 90 + ($page.data.apiStatus.code !== 200 ? 40 : 0);
-
-	const setHeight = (element: HTMLElement) => {
-		element.style.height = `calc(100vh - ${firstSectionHeight}px)`
-	}
-	const setHeightAndMargin = (element: HTMLElement) => {
-		element.style.height = `calc(100vh - ${firstSectionHeight}px)`
-		element.style.marginTop = `${firstSectionHeight}px`
-	}
-	const setMargin = (element: HTMLElement) => {
-		element.style.marginTop = `${firstSectionHeight}px`
-	}
 	let useServers: AdvertisedServer[] = [];
 	let getServers: (filter_type: string, pageNumber: string) => Promise<void> = async () => {};
 	onMount(() => {
@@ -48,119 +36,44 @@
   <meta name="author" content={`TooMuchHam, SoSweetHam (scraping)`}>
 </svelte:head>
 
-<div class="w-full flex flex-col items-center snap snap-y snap-mandatory mx:auto overflow-scroll " use:setHeight>
-	<div class="container overflow-visible">
-		<section class="flex justify-center h-screen snap-start shrink-0 relative overflow-visible" use:setHeightAndMargin>
-			<div class="absolute h-1/2 w-screen overflow-visible">
-				<div class="absolute h-full w-screen top-0"  style={
-					`
-						background-image: url('/images/top-banner.webp');
-						background-size: cover;
-						background-position: center;
-						z-index: -1;
-					`
-				} />
-			</div>
-			<div class="flex flex-col items-center justify-around h-[calc(100%-64px)] pt-8 gap-[128px]" >
-				<div class="flex flex-col md:flex-row items-center gap-8 h-[41.66667%]">
-					<div class="flex flex-col items-center h-full gap-4 justify-center">
-						<h1 class="h1 text-center">
-							No catchphrases, <br />let's get right into it.
-						</h1>
-						<div class="flex gap-8">
-							<button class="btn variant-filled-tertiary">
-								<a href="https://www.guilded.gg/b/bae67135-8e50-4b11-b7e9-d3e8da26f4ec" target="_blank" rel="noopener noreferrer" class="uppercase font-black">
-									Invite Maya
-								</a>
-							</button>
-							<button class="btn variant-filled-secondary">
-								<a href="/about-us" target="_blank" rel="noopener noreferrer" class="uppercase font-black">
-									About Us
-								</a>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div class="flex flex-col md:flex-row gap-8 h-[41.66667%]">
-					<img src="/images/image_template.png" alt="Template" class="hidden md:block max-h-full">
-					<div class="flex flex-col items-center gap-4 justify-center">
-						<h2 class="h2 text-center capitalize">
-							Find servers that you'll love!
-						</h2>
-						<div class="flex flex-wrap gap-4 justify-center items-center">
-							{#each useServers as server, i}
-							{#if i < 4}
-								<a href={server.url} target="_blank" rel="noopener noreferrer" class="card card-hover">
-								<Avatar rounded="rounded-md" src={server.avatar} width="w-32" />
-								</a>
-							{/if}
-							{/each}
-						</div>
-						<button class="btn variant-filled-tertiary">
-							<a href="/servers/browse/1" target="_blank" rel="noopener noreferrer" class="uppercase font-black">
-								Explore
-							</a>
-						</button>
-					</div>
-				</div>
-				<!-- <div class="md:h-2/3 w-full">
-					<div class="flex flex-col md:flex-row gap-4">
-						<img src="/images/image_template.png" alt="Template" class="hidden lg:block max-w-[41.666667%] aspect-auto">
-						<div class="flex flex-col w-full gap-4">
-							<h2 class="h2 capitalize font-bold w-full text-center">
-								Find Servers that you'll love
-							</h2>
-							<div class="flex flex-col items-stretch">
-								<div class="flex flex-wrap gap-4 justify-center items-center">
-									{#each useServers as server, i}
-									{#if i < 4}
-										<a href={server.url} target="_blank" rel="noopener noreferrer" class="card card-hover">
-										<Avatar rounded="rounded-md" src={server.avatar} width="w-40" />
-										</a>
-									{/if}
-									{/each}
-								</div>
-								<button class="btn variant-filled-tertiary mt-auto">
-									<a href="/servers/browse/1" target="_blank" rel="noopener noreferrer" class="uppercase font-black">
-										Explore
-									</a>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div> -->
-			</div>
-		</section>
-		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
-			<div class="flex flex-col items-center justify-around">
-				<div class="flex flex-col md:flex-row gap-8">
-					<img src="/images/image_template.png" alt="Template" class="md:w-1/2">
-					<div class="flex flex-col gap-4 justify-center">
-						<h2 class="h2 font-bold">
-							Moderation Made Easy
-						</h2>
-						<p>
-							Our moderation tools aim to simplify community management for your moderators. With our advanced traffic and event logging, your mods can easily track user actions. The Auto-Mod feature filters chats, allowing your mods to focus on more important tasks. With just a few clicks, you can set up a pre-generated word filter or create your own custom filter. Simplify community management with Maya!
-						</p>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section class="flex justify-center h-screen snap-start shrink-0" use:setHeightAndMargin>
-			<div class="flex flex-col items-center justify-around">
-				<div class="flex flex-col-reverse md:flex-row gap-8">
-					<div class="flex flex-col gap-4 justify-center">
-						<h2 class="h2 font-bold">
-							Advanced Support Tools
-						</h2>
-						<p>
-							Prioritise easier communication with your support team. A simple reaction to a support embed creates a dedicated channel for the user. You can set up different support categories for the user to choose from so the appropriate mod is assigned to their ticket. Our ticket tool is designed to streamline inquiries and improve response times. Our goal is to provide essential tools that improve the overall user experience of your community.
-						</p>
-					</div>
-					<img src="/images/image_template.png" alt="Template" class="md:w-1/2">
-				</div>
-			</div>
-		</section>
+<section class="h-[calc(100vh-5.625rem)] w-full flex justify-center">
+	<div class="flex flex-col items-center justify-center h-full gap-8 container">
+		<div class="flex items-center gap-4">
+			<Avatar src="/images/maya-logo.png" width="w-32" />
+			<h2 class="h2 font-black">
+				Let's get right into it.
+			</h2>
+		</div>
+		<p>
+			Maya is a guilded bot that is tailored to offer you <br /> tools that help you moderate, run economy <br /> and provide advertisement services. 
+		</p>
+		<div class="flex justify-evenly w-full">
+			<button class=" variant-glass-tertiary px-4 py-2 rounded-sm">
+				Add to Guilded
+			</button>
+			<button class=" variant-glass-secondary px-4 py-2 rounded-sm">
+				Premium
+			</button>
+		</div>
 	</div>
-</div>
+</section>
 
+<section class="h-[calc(100vh-5.625rem)] w-full flex justify-center">
+	<div class="flex flex-col items-center justify-center h-full gap-8 container">
+		<div class="flex items-center gap-4">
+			<div class="flex flex-col gap-4">
+				<h2 class="h2 font-black text-center">
+					Find Servers That You'll Love
+				</h2>
+				<p>
+					Find servers that you'll love with our server discovery feature. <br /> You can filter servers by category, tags, and more!
+				</p>
+				<button class=" variant-glass-tertiary px-4 py-2 rounded-sm">
+					Explore Servers
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<TrustedByBar servers={useServers} />

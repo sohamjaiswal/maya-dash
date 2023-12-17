@@ -11,6 +11,7 @@ export const POST = async ({request, params}) => {
         filter_type: filter_type
       })
     })  
+    console.log(servers)
     const data = (await servers.json()).data as ServersRecord
     return new Response(JSON.stringify(data))
 }

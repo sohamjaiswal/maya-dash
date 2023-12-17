@@ -6,7 +6,6 @@ export const load = async ({params, locals}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
-
     const membersData = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/members`, {
       method: 'GET',
       headers: {
@@ -14,6 +13,7 @@ export const load = async ({params, locals}) => {
         Token: locals.user.mayaToken
       }
     })
+    console.log(await membersData.json())
     if (!membersData.ok) {
       throw error(500, 'Internal Server Error')
     }

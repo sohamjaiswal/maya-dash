@@ -16,6 +16,7 @@ export const load = async ({params, locals}) => {
           Token: locals.user.mayaToken
         }
       })).json()).data
+      console.log(serverSettingsRes)
       return serverSettingsRes as ServerSettings
     // get server details using serverid and mayatoken and userid 
   }
@@ -34,14 +35,15 @@ export const actions = {
 
     const data = await request.formData()
     const prefix = data.get('prefix')
-    const log_enabled = data.get('log_enabled')
-    const welcome_channel_enabled = data.get('welcome_channel_enabled')
+    const log_toggle = data.get('log_toggle')
+    const welcome_message_toggle = data.get('welcome_message_toggle')
     const log_actions_channel = data.get('log_actions_channel')
     const log_events_channel = data.get('log_events_channel')
     const log_traffic_channel = data.get('log_traffic_channel')
     const welcome_channel = data.get('welcome_channel')
     const welcome_message = data.get('welcome_message')
-    const welcome_banner_enabled = data.get('welcome_banner_enabled')
+    const welcome_banner_toggle = data.get('welcome_banner_toggle')
+    const welcome_thumbnail_toggle = data.get('welcome_thumbnail_toggle')
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/settings`, {
       method: 'POST',
       headers: {
@@ -50,18 +52,19 @@ export const actions = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        economy_type: 'global',
         prefix,
-        log_enabled: log_enabled === 'on',
-        welcome_channel_enabled: welcome_channel_enabled === 'on',
+        logs_toggle: log_toggle === 'on',
+        welcome_message_toggle: welcome_message_toggle === 'on',
         log_actions_channel,
         log_events_channel,
         log_traffic_channel,
         welcome_channel,
         welcome_message,
-        welcome_banner_enabled: welcome_banner_enabled === 'on'
+        welcome_banner_toggle: welcome_banner_toggle === 'on',
+        welcome_thumbnail_toggle: welcome_thumbnail_toggle === 'on'
       })
     })
+    console.log(updateServerSettingsRes)
     if (updateServerSettingsRes.ok) {
       const {message} = await updateServerSettingsRes.json()
       return {success: true, message}
@@ -69,15 +72,16 @@ export const actions = {
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {
       prefix,
-      log_enabled,
-      welcome_channel_enabled,
+      log_toggle,
+      welcome_message_toggle,
       log_actions_channel,
       log_events_channel,
       log_traffic_channel,
       welcome_channel,
       welcome_message,
       message:message,
-      welcome_banner_enabled
+      welcome_banner_toggle,
+      welcome_thumbnail_toggle
     })
   }
 }

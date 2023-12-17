@@ -21,7 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			transformPageChunk: ({ html }) => html.replace('data-theme=""', `data-theme="${theme}"`)
 		});
 	}
-
+	
 	try {
 		const decodedMayaToken = jwt.verify(mayaToken, env.JWT_SECRET) as unknown as { userId: string; token: string };
 		const userData = (await (await fetch(`https://api.mayabot.xyz/userdata`, {
@@ -29,14 +29,16 @@ export const handle: Handle = async ({ event, resolve }) => {
           UserID: decodedMayaToken.userId,
           Token: decodedMayaToken.token
         }, method: 'GET'
-      })).json()).data as { name: string; avatar: string; banner: string; }
+      })).json()).data as { name: string; avatar: string; banner: string; url: string; }
       if (userData) {
 				event.locals.user = {id: decodedMayaToken.userId, mayaToken: decodedMayaToken.token,...userData};
 			}
 	}
+	
 	catch (e) {
 		event.cookies.delete(JWT_SESSION_COOKIE_NAME, { path: '/' });
 	}
+
 	return await resolve(event, {
 		transformPageChunk: ({ html }) => html.replace('data-theme=""', `data-theme="${theme}"`)
 	});
