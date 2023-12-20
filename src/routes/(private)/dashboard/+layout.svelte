@@ -1,14 +1,22 @@
 <script lang="ts">
-
+	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 	import Icon from "@iconify/svelte";
 	import { AppShell, Avatar, getDrawerStore, type DrawerSettings } from "@skeletonlabs/skeleton";
+	import { onMount } from "svelte";
 
   export let data
 
   $: classesActive = (href: string) => ($page.url.pathname.startsWith(href) ? '!bg-primary-500' : '');
   $: preciseClassesActive = (href: string) => ($page.url.pathname === href ? '!bg-primary-500' : '');
   $: tabsActive = (href: string) => ($page.url.pathname.startsWith(href) ? 'block' : 'hidden');
+  $: selectedServer = ''
+  const changeSelectedServer = (e: Event) => {
+    const target = e.target as HTMLSelectElement
+    const serverId = target.value
+    selectedServer = serverId
+    goto(`/dashboard/${serverId}`)
+  }
   const drawerStore = getDrawerStore()
   const drawerSettings: DrawerSettings = {
     position: 'left',
@@ -19,6 +27,9 @@
       servers: data.lazy.moderatingServers
     }
   }
+  onMount(() => {
+
+  })
 </script>
 
 <AppShell>
@@ -28,7 +39,7 @@
     </button>
     <div class="p-2 h-full overflow-y-auto hidden md:block">
       <h2 class="h2">
-        Your Servers
+        Select Server
       </h2>
       {#await data.lazy.moderatingServers}
       <p class="text-center">
@@ -36,42 +47,37 @@
       </p>
       {:then servers}
       <div class="flex flex-col w-full justify-center gap-4 mt-10">
-        {#each servers as server}
-        <div class="flex flex-col gap-4">
-          <a href={`/dashboard/${server.id}`} class={`w-full p-2 rounded-lg ${classesActive(`/dashboard/${server.id}`)}`}>
-            <div class="w-fit h-fit overflow-hidden">
-                <div class="flex gap-2 h-full items-center justify-end">
-                  <Avatar src={server.avatar} width="w-16" rounded="rounded-lg" />
-                  <h6 class="h6">
-                    {server.name}
-                  </h6>
-                </div>
+        <select class="select" name="server_selector" id="server_selector" on:change={changeSelectedServer} >
+          {#each servers as server}
+            <option value={server.id}>
+              <div class="flex gap-4">
+                {server.name}
+              </div>
+            </option>
+          {/each}
+        </select>
+        <div class={`flex flex-col gap-2 ml-10 ${tabsActive(`/dashboard/${selectedServer}`)}`}>
+          <a href={`/dashboard/${selectedServer}`}>
+            <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${selectedServer}/general`)} `}>
+              🏠 General
             </div>
           </a>
-          <div class={`flex flex-col gap-2 ml-10 ${tabsActive(`/dashboard/${server.id}`)}`}>
-            <a href={`/dashboard/${server.id}`}>
-              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/general`)} `}>
-                🏠 General
-              </div>
-            </a>
-            <a href={`/dashboard/${server.id}/members`}>
-              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/members`)}`}>
-                👥 Members
-              </div>
-            </a>
-            <a href={`/dashboard/${server.id}/audit-log`}>
-              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/audit-log`)}`}>
-                📜 Audit Log
-              </div>
-            </a>
-            <a href={`/dashboard/${server.id}/advertise`}>
-              <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${server.id}/advertise`)}`}>
-                📢 Advertise
-              </div>
-            </a>
-          </div>
+          <a href={`/dashboard/${selectedServer}/members`}>
+            <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${selectedServer}/members`)}`}>
+              👥 Members
+            </div>
+          </a>
+          <a href={`/dashboard/${selectedServer}/audit-log`}>
+            <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${selectedServer}/audit-log`)}`}>
+              📜 Audit Log
+            </div>
+          </a>
+          <a href={`/dashboard/${selectedServer}/advertise`}>
+            <div class={`w-full p-2 rounded-lg ${preciseClassesActive(`/dashboard/${selectedServer}/advertise`)}`}>
+              📢 Advertise
+            </div>
+          </a>
         </div>
-        {/each}
       </div>
       {:catch error}
       <p class="text-center">

@@ -20,6 +20,7 @@ export const load = async({locals}) => {
       id,
       ...staffedRes[id],
     }));
+    console.log(servers)
     return servers
   }
   return {lazy: {moderatingServers: getStaffedServers(locals.user.id)}}

@@ -30,10 +30,12 @@ export const actions = {
     if (validate.ok) {
       const {data} = await validate.json();
       const cookie = createSessionCookie(data)
+      console.log(cookie)
       cookies.set(JWT_SESSION_COOKIE_NAME, cookie, {
         httpOnly: true,
         path: '/',
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        secure: process.env.NODE_ENV === 'production'
       })
       throw redirect(302, '/')
     } else {

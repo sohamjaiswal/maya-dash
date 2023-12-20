@@ -13,7 +13,6 @@ export const load = async ({params, locals}) => {
         Token: locals.user.mayaToken
       }
     })
-    console.log(await membersData.json())
     if (!membersData.ok) {
       throw error(500, 'Internal Server Error')
     }

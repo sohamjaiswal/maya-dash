@@ -12,7 +12,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (cookieTheme) {
 		theme = cookieTheme;
 	} else {
-		event.cookies.set('theme', 'maya');
+		event.cookies.set('theme', 'maya', {
+			path: '/',
+		});
 		theme = 'maya';
 	}
 
