@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
+	import { guildedMediaLink } from "$lib/utils/guilded-media";
 	import { Avatar } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
 
@@ -64,7 +65,7 @@
             <label for="guildedId" />
             <input type="text" class="hidden" name="guildedId" value={user.id} />
             <button class="btn w-full flex flex-row card card-hover variant-glass" type="submit">
-              <Avatar src={user.profilePicture} fallback={"/poop.png"} />
+              <Avatar src={guildedMediaLink(user.profilePicture)} fallback={"/poop.png"} />
               <span class="flex-auto">
                 <dt>{user.name}</dt>
                 <dl>{user.id}</dl>

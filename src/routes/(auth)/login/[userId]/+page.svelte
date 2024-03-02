@@ -4,6 +4,7 @@
 	import MagicalText from '$lib/components/MagicalText/MagicalText.svelte';
 	import { mayaToken, userId } from '$lib/stores/stores.js';
 	import type { GuildedUser } from '$lib/types/guilded-user';
+	import { guildedMediaLink } from '$lib/utils/guilded-media.js';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
@@ -56,7 +57,7 @@
         Let's get you setup with Maya.
       </h2>
       <div class="flex gap-4 items-center">
-        <Avatar src={guildedUser?.profilePictureLg} width="w-32" /> 
+        <Avatar src={guildedMediaLink(guildedUser?.profilePictureLg)} width="w-32" /> 
         <h2 class="h1">
           🤝
         </h2>
