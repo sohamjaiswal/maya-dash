@@ -54,7 +54,7 @@ export const actions = {
     })
     if (updateServerSettingsRes.ok) {
       const {message} = await updateServerSettingsRes.json()
-      return {success: true, message}
+      return {success: true, message, welcome_channel, welcome_message_toggle, welcome_message, welcome_banner_toggle, welcome_thumbnail_toggle}
     }
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {
@@ -73,6 +73,7 @@ export const actions = {
     }
     const data = await request.formData()
     const prefix = data.get('prefix')
+    console.log(prefix)
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/prefix`, {
       method: 'POST',
       headers: {
@@ -86,7 +87,7 @@ export const actions = {
     })
     if (updateServerSettingsRes.ok) {
       const {message} = await updateServerSettingsRes.json()
-      return {success: true, message}
+      return {success: true, message, prefix}
     }
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {
@@ -120,7 +121,7 @@ export const actions = {
     })
     if (updateServerSettingsRes.ok) {
       const {message} = await updateServerSettingsRes.json()
-      return {success: true, message}
+      return {success: true, message, logs_toggle, log_actions_channel, log_events_channel, log_traffic_channel}
     }
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {
