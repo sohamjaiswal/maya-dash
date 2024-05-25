@@ -22,15 +22,15 @@
   $: serverSettings
   onMount(async() => {
     serverSettings = await data.lazy.serverSettings
-    prefix = form?.prefix?.toString() ?? serverSettings.prefix
-    welcome_message_toggle = form?.welcome_message_toggle?.toString() == 'on' ?? serverSettings.welcome_channel_enabled
-    welcome_channel = form?.welcome_channel?.toString() ?? serverSettings.welcome_channel
-    welcome_message = form?.welcome_message?.toString() ?? serverSettings.welcome_message
-    welcome_banner_toggle = form?.welcome_banner_toggle?.toString() == 'on' ?? serverSettings.welcome_banner_enabled
-    logs_toggle = form?.logs_toggle?.toString() == 'on' ?? serverSettings.log_enabled
-    log_actions_channel = form?.log_actions_channel?.toString() ?? serverSettings.log_actions_channel
-    log_events_channel = form?.log_events_channel?.toString() ?? serverSettings.log_events_channel
-    log_traffic_channel = form?.log_traffic_channel?.toString() ?? serverSettings.log_traffic_channel
+    prefix = serverSettings.prefix
+    welcome_message_toggle = serverSettings.welcome_message_toggle
+    welcome_channel = serverSettings.welcome_channel
+    welcome_message = serverSettings.welcome_message
+    welcome_banner_toggle = serverSettings.welcome_banner_toggle
+    logs_toggle = serverSettings.logs_toggle
+    log_actions_channel = serverSettings.log_actions_channel
+    log_events_channel = serverSettings.log_events_channel
+    log_traffic_channel = serverSettings.log_traffic_channel
     // welcome_thumbnail_toggle = form?.welcome_thumbnail_toggle == 'on' ?? serverSettings.welcome_thumbnail_enabled
     console.log(serverSettings)
   })
@@ -95,10 +95,11 @@
             message: result.data?.message,
             background: "variant-filled-success",
           }
-          welcome_message_toggle = form?.welcome_message_toggle == 'on' ?? serverSettings.welcome_channel_enabled
-          welcome_channel = form?.welcome_channel?.toString() ?? serverSettings.welcome_channel
-          welcome_message = form?.welcome_message?.toString() ?? serverSettings.welcome_message
-          welcome_banner_toggle = form?.welcome_banner_toggle == 'on' ?? serverSettings.welcome_banner_enabled
+          console.log(result)
+          welcome_message_toggle = !!result.data?.welcome_message_toggle ?? serverSettings.welcome_message_toggle
+          welcome_channel = result.data?.welcome_channel?.toString() ?? serverSettings.welcome_channel
+          welcome_message = result.data?.welcome_message?.toString() ?? serverSettings.welcome_message
+          welcome_banner_toggle = !!result.data?.welcome_banner_toggle ?? serverSettings.welcome_banner_toggle
             toastStore.trigger(t)
           } else if (result.type === "failure") {
             // make settings updated toast
@@ -118,9 +119,9 @@
           Update Welcome Settings
         </button>
       </div>
-      <label for="welcome_channel_enabled" class="flex items-center gap-4">
+      <label for="welcome_message_toggle" class="flex items-center gap-4">
         Enable Welcome Channel
-        <SlideToggle id="welcome_channel_enabled" name="welcome_channel_enabled" bind:checked={welcome_message_toggle} />
+        <SlideToggle id="welcome_message_toggle" name="welcome_message_toggle" bind:checked={welcome_message_toggle} />
       </label>
       {#if welcome_message_toggle}
       <div class="card p-6 flex flex-col gap-4">
@@ -132,9 +133,9 @@
             {/each}
           </select>
         </label>
-        <label class:hidden={!!form?.welcome_channel ?? !!serverData.welcome_channel} for="welcome_banner_enabled" class="flex gap-4 items-center">
+        <label class:hidden={!!form?.welcome_channel ?? !!serverData.welcome_channel} for="welcome_banner_toggle" class="flex gap-4 items-center">
           Enable Welcome Banner
-          <SlideToggle id="welcome_banner_enabled" name="welcome_banner_enabled" bind:checked={welcome_banner_toggle} />
+          <SlideToggle id="welcome_banner_toggle" name="welcome_banner_toggle" bind:checked={welcome_banner_toggle} />
         </label>
         <label for="welcome_message">
           <div class="flex items
@@ -157,11 +158,11 @@
             message: result.data?.message,
             background: "variant-filled-success",
           }
-          console.log(form)
-          welcome_message_toggle = form?.welcome_message_toggle == 'on' ?? serverSettings.welcome_channel_enabled
-          welcome_channel = form?.welcome_channel?.toString() ?? serverSettings.welcome_channel
-          welcome_message = form?.welcome_message?.toString() ?? serverSettings.welcome_message
-          welcome_banner_toggle = form?.welcome_banner_toggle == 'on' ?? serverSettings.welcome_banner_enabled
+          console.log(result)
+          logs_toggle = !!result.data?.logs_toggle ?? serverSettings.logs_toggle
+          log_actions_channel = result.data?.log_actions_channel?.toString() ?? serverSettings.log_actions_channel
+          log_events_channel = result.data?.log_events_channel?.toString() ?? serverSettings.log_events_channel
+          log_traffic_channel = result.data?.log_traffic_channel?.toString() ?? serverSettings.log_traffic_channel
             toastStore.trigger(t)
           } else if (result.type === "failure") {
             // make settings updated toast
@@ -181,9 +182,9 @@
           Update Logs Settings
         </button>
       </div>
-      <label for="log_enabled" class="flex items-center gap-4">
+      <label for="logs_toggle" class="flex items-center gap-4">
         Enable Logs
-        <SlideToggle name="log_enabled" id="log_enabled" bind:checked={logs_toggle} />
+        <SlideToggle name="logs_toggle" id="logs_toggle" bind:checked={logs_toggle} />
       </label>
       {#if logs_toggle}
       <div class="card p-6 flex flex-col gap-4">

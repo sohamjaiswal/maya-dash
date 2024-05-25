@@ -32,11 +32,12 @@ export const actions = {
       throw redirect(302, '/login')
     }
     const data = await request.formData()
+    console.log(data)
     const welcome_channel = data.get('welcome_channel')
-    const welcome_message_toggle = data.get('welcome_message_toggle')
+    const welcome_message_toggle = data.get('welcome_message_toggle') === 'on'
     const welcome_message = data.get('welcome_message')
-    const welcome_banner_toggle = data.get('welcome_banner_toggle')
-    const welcome_thumbnail_toggle = data.get('welcome_thumbnail_toggle')
+    const welcome_banner_toggle = data.get('welcome_banner_toggle') === 'on'
+    const welcome_thumbnail_toggle = data.get('welcome_thumbnail_toggle') === 'on'
     const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/welcome`, {
       method: 'POST',
       headers: {
@@ -45,11 +46,11 @@ export const actions = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        welcome_message_toggle: welcome_message_toggle === 'on',
+        welcome_message_toggle,
         welcome_channel,
         welcome_message,
-        welcome_banner_toggle: welcome_banner_toggle === 'on',
-        welcome_thumbnail_toggle: welcome_thumbnail_toggle === 'on',
+        welcome_banner_toggle,
+        welcome_thumbnail_toggle
       })
     })
     if (updateServerSettingsRes.ok) {

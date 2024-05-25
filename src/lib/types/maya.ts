@@ -34,14 +34,14 @@ export interface ServerSettings {
   partner_status: boolean
   economy_type: 'global'
   log_actions_channel: string
-  log_enabled: boolean
+  logs_toggle: boolean
   log_events_channel: string
   log_traffic_channel: string
   prefix: string
   welcome_channel: string
-  welcome_channel_enabled: boolean
+  welcome_message_toggle: boolean
   welcome_message: string,
-  welcome_banner_enabled: boolean
+  welcome_banner_toggle: boolean
   channels: {
     [key: string]: {
       name: string
