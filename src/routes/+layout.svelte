@@ -35,6 +35,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { webVitals } from '$lib/utils/vitals';
+	import { PhotoBox } from '$lib/utils/photobox';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 	const drawerStore = getDrawerStore();
@@ -165,7 +166,7 @@
 				<hr class="w-2/3" />
 				<a href="/profile" on:click={() => drawerStore.close()}>
 					<div class="flex flex-col items-center w-full">
-						<Avatar src={$page.data.user.avatar} width="w-16" />
+						<Avatar src={PhotoBox.getUserAvatar($page.data.user.id)} width="w-16" />
 						<div class="flex gap-2 items-center mt-2">
 							{$page.data.user.name}
 						</div>

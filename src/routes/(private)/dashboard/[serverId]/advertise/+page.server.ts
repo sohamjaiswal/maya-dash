@@ -48,13 +48,13 @@ export const load = async ({params, locals}) => {
 }
 
 export const actions = {
-  updateBumpSettings: async ({params, locals, request}) => {
+  updateAdvertisementSettings: async ({params, locals, request}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
     const data = await request.formData()
-    const bump_enabled = data.get('bump_enabled') == "on"
-    const bump_tags = data.getAll('bump_tags')
+    const advertisement_toggle = data.get('advertisement_toggle') == "on"
+    const tags = data.getAll('tags')
     const updateSettings = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/bump`, {
       method: 'POST',
       headers: {
@@ -63,13 +63,13 @@ export const actions = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        bump_enabled,
-        bump_tags
+        advertisement_toggle,
+        tags
       })
     })
     if (updateSettings.ok) {
       const {message} = await updateSettings.json()
-      return {success: true, tags: bump_tags, bump_enabled: bump_enabled, message}
+      return {success: true, tags: tags, advertisement_toggle: advertisement_toggle, message}
     }
     const {code, message} = await updateSettings.json() as {code: number, message: string}
     return fail(code, {message})

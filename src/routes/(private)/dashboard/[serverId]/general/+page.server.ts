@@ -27,22 +27,17 @@ export const load = async ({params, locals}) => {
 }
 
 export const actions = {
-  updateServerSettings: async ({params, locals, request}) => {
+  updateWelcomeSettings: async ({params, locals, request}) => {
     if (!locals.user) {
       throw redirect(302, '/login')
     }
-
     const data = await request.formData()
-    const prefix = data.get('prefix')
-    const log_enabled = data.get('log_enabled')
-    const welcome_channel_enabled = data.get('welcome_channel_enabled')
-    const log_actions_channel = data.get('log_actions_channel')
-    const log_events_channel = data.get('log_events_channel')
-    const log_traffic_channel = data.get('log_traffic_channel')
     const welcome_channel = data.get('welcome_channel')
+    const welcome_message_toggle = data.get('welcome_message_toggle')
     const welcome_message = data.get('welcome_message')
-    const welcome_banner_enabled = data.get('welcome_banner_enabled')
-    const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/settings`, {
+    const welcome_banner_toggle = data.get('welcome_banner_toggle')
+    const welcome_thumbnail_toggle = data.get('welcome_thumbnail_toggle')
+    const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/welcome`, {
       method: 'POST',
       headers: {
         UserID: locals.user.id,
@@ -50,16 +45,43 @@ export const actions = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        economy_type: 'global',
-        prefix,
-        log_enabled: log_enabled === 'on',
-        welcome_channel_enabled: welcome_channel_enabled === 'on',
-        log_actions_channel,
-        log_events_channel,
-        log_traffic_channel,
+        welcome_message_toggle: welcome_message_toggle === 'on',
         welcome_channel,
         welcome_message,
-        welcome_banner_enabled: welcome_banner_enabled === 'on'
+        welcome_banner_toggle: welcome_banner_toggle === 'on',
+        welcome_thumbnail_toggle: welcome_thumbnail_toggle === 'on',
+      })
+    })
+    if (updateServerSettingsRes.ok) {
+      const {message} = await updateServerSettingsRes.json()
+      return {success: true, message}
+    }
+    const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
+    return fail(code, {
+      welcome_channel,
+      welcome_message_toggle,
+      welcome_message,
+      welcome_banner_toggle,
+      welcome_thumbnail_toggle,
+      message
+    })
+  },
+
+  updatePrefix: async ({params, locals, request}) => {
+    if (!locals.user) {
+      throw redirect(302, '/login')
+    }
+    const data = await request.formData()
+    const prefix = data.get('prefix')
+    const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/prefix`, {
+      method: 'POST',
+      headers: {
+        UserID: locals.user.id,
+        Token: locals.user.mayaToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prefix
       })
     })
     if (updateServerSettingsRes.ok) {
@@ -69,15 +91,44 @@ export const actions = {
     const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
     return fail(code, {
       prefix,
-      log_enabled,
-      welcome_channel_enabled,
+      message
+    })
+  },
+
+  updateLogsSettings: async ({params, locals, request}) => {
+    if (!locals.user) {
+      throw redirect(302, '/login')
+    }
+    const data = await request.formData()
+    const logs_toggle = data.get('logs_toggle')
+    const log_actions_channel = data.get('log_actions_channel')
+    const log_events_channel = data.get('log_events_channel')
+    const log_traffic_channel = data.get('log_traffic_channel')
+    const updateServerSettingsRes = await fetch(`https://api.mayabot.xyz/server/${params.serverId}/update/logs`, {
+      method: 'POST',
+      headers: {
+        UserID: locals.user.id,
+        Token: locals.user.mayaToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        logs_toggle: logs_toggle === 'on',
+        log_actions_channel,
+        log_events_channel,
+        log_traffic_channel,
+      })
+    })
+    if (updateServerSettingsRes.ok) {
+      const {message} = await updateServerSettingsRes.json()
+      return {success: true, message}
+    }
+    const {code, message} = await updateServerSettingsRes.json() as {code: number, message: string}
+    return fail(code, {
+      logs_toggle,
       log_actions_channel,
       log_events_channel,
       log_traffic_channel,
-      welcome_channel,
-      welcome_message,
-      message:message,
-      welcome_banner_enabled
+      message
     })
   }
 }

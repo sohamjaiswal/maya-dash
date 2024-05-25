@@ -9,6 +9,7 @@
 	import { page } from '$app/stores';
 	import LoginWithMaya from '$lib/components/LoginWithMaya/LoginWithMaya.svelte';
 	import { onMount } from 'svelte';
+	import { PhotoBox } from '$lib/utils/photobox';
 	const drawerStore = getDrawerStore();
 	const drawerSettings: DrawerSettings = {
 		position: 'right',
@@ -52,7 +53,7 @@
 				</div>
 				{:else}
 				<div class="flex gap-4 items-center">
-					<Avatar src={$page.data.user.avatar} width="w-12" rounded="rounded-full" />
+					<Avatar src={PhotoBox.getUserAvatar($page.data.user.id)} width="w-12" rounded="rounded-full" />
 				</div>
 				{/if}
 			</button>

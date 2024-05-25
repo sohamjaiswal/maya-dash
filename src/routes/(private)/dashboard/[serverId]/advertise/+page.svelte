@@ -16,7 +16,7 @@
   $: serverSettings
 
   let thisServerTags: string[] = []
-  $: adsEnabled = form?.bump_enabled ?? true
+  $: adsEnabled = form?.advertisement_toggle ?? true
   $: thisServerTags
   onMount(async() => {
     serverSettings = await data.lazy.serverSettings
@@ -33,7 +33,7 @@
   {#await data.lazy.serverSettings}
     Getting server settings...
   {:then} 
-    <form class="flex flex-col gap-4 p-2" action="?/updateBumpSettings" method="post" on:submit|preventDefault use:enhance={() => {
+    <form class="flex flex-col gap-4 p-2" action="?/updateAdvertisementSettings" method="post" on:submit|preventDefault use:enhance={() => {
       return ({result}) => {
         if (result.type === "success") {
           // make settings updated toast
@@ -59,7 +59,7 @@
             <Icon icon="material-symbols:info" />
           </div>
         </div>
-        <SlideToggle name="bump_enabled" id="bump_enabled" bind:checked={adsEnabled} />
+        <SlideToggle name="advertisement_toggle" id="advertisement_toggle" bind:checked={adsEnabled} />
       </label>
       <div class={`card p-6 flex flex-col gap-4 ${adsEnabled ? 'block' : 'hidden'}`}>
         <!-- list all tags in badges -->
@@ -67,8 +67,8 @@
           <h2>Tags</h2>
           <div class="flex gap-2 flex-wrap">
             {#each tagsList as tag}
-                <label for={`bump_tags_${tag}`} class="flex items-center space-x-2">
-                  <input class="checkbox" id={`bump_tags_${tag}`} name="bump_tags" type="checkbox" checked={form?.tags ? form?.tags.includes(tag) : thisServerTags.includes(tag)} value={tag} />
+                <label for={`tags_${tag}`} class="flex items-center space-x-2">
+                  <input class="checkbox" id={`tags_${tag}`} name="tags" type="checkbox" checked={form?.tags ? form?.tags.includes(tag) : thisServerTags.includes(tag)} value={tag} />
                   <p>{tag}</p>
                 </label>
             {/each}
