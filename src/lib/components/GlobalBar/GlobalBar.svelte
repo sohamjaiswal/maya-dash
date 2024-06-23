@@ -1,15 +1,9 @@
 <script lang="ts">
-	import {
-		AppBar,
-		getDrawerStore,
-		type DrawerSettings,
-		Avatar
-	} from '@skeletonlabs/skeleton';
+	import { AppBar, getDrawerStore, type DrawerSettings, Avatar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
 	import LoginWithMaya from '$lib/components/LoginWithMaya/LoginWithMaya.svelte';
 	import { onMount } from 'svelte';
-	import { PhotoBox } from '$lib/utils/photobox';
 	const drawerStore = getDrawerStore();
 	const drawerSettings: DrawerSettings = {
 		position: 'right',
@@ -17,15 +11,16 @@
 		padding: 'p-4',
 		rounded: 'rounded-lg'
 	};
-	$: apiStatus = {code: 200, message: 'OK'};
-	onMount(async() => {
-		apiStatus = await (await fetch('https://api.mayabot.xyz/status')).json()
-	})
+	$: apiStatus = { code: 200, message: 'OK' };
+	onMount(async () => {
+		apiStatus = await (await fetch('https://api.mayabot.xyz/status')).json();
+	});
 </script>
+
 {#if apiStatus.code !== 200}
-<div class="bg-red-500 text-white p-2 text-center">
-	{apiStatus.message}
-</div>
+	<div class="bg-red-500 text-white p-2 text-center">
+		{apiStatus.message}
+	</div>
 {/if}
 <AppBar shadow="shadow-2xl" slotTrail="!space-x-2" class="w-full">
 	<svelte:fragment slot="lead">
@@ -38,23 +33,23 @@
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<div class="flex gap-4 items-center">
-			{#if !($page.data.user)}
-			<LoginWithMaya />
+			{#if !$page.data.user}
+				<LoginWithMaya />
 			{/if}
 			<button
 				class="btn btn-icon"
 				on:click={() => {
 					drawerStore.open(drawerSettings);
 				}}
-			>	
-				{#if !($page.data.user)}
-				<div class="flex gap-4 items-center">
-					<Icon icon="mdi:hamburger-menu" />
-				</div>
+			>
+				{#if !$page.data.user}
+					<div class="flex gap-4 items-center">
+						<Icon icon="mdi:hamburger-menu" />
+					</div>
 				{:else}
-				<div class="flex gap-4 items-center">
-					<Avatar src={PhotoBox.getUserAvatar($page.data.user.id)} width="w-12" rounded="rounded-full" />
-				</div>
+					<div class="flex gap-4 items-center">
+						<Avatar src={$page.data.user.avatar} width="w-12" rounded="rounded-full" />
+					</div>
 				{/if}
 			</button>
 		</div>
